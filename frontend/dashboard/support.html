@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Support — MAMA CHOL VPN Dashboard</title>
+  <link rel="icon" href="/assets/images/logo.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body>
+<div class="dashboard-layout">
+
+  <aside class="sidebar">
+    <div class="sidebar-logo">🛡️ MAMA CHOL VPN</div>
+    <div class="sidebar-section-title">Main</div>
+    <nav class="sidebar-nav">
+      <a href="/dashboard/index.html"><span class="nav-icon">📊</span> Dashboard</a>
+      <a href="/dashboard/config.html"><span class="nav-icon">⚙️</span> VPN Config</a>
+      <a href="/dashboard/devices.html"><span class="nav-icon">📱</span> Devices</a>
+      <a href="/dashboard/payments.html"><span class="nav-icon">💳</span> Payments</a>
+      <a href="/dashboard/support.html" class="active"><span class="nav-icon">🎫</span> Support</a>
+    </nav>
+    <div class="sidebar-section-title" style="margin-top:16px">Account</div>
+    <nav class="sidebar-nav">
+      <a href="#"><span class="nav-icon">👤</span> Profile</a>
+      <a href="/"><span class="nav-icon">🔓</span> Logout</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="width:36px;height:36px;border-radius:50%;background:var(--gradient-primary);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.85rem">RK</div>
+        <div><div style="font-size:0.85rem;font-weight:600">Rakib Khan</div><div style="font-size:0.75rem;color:var(--text-muted)">Standard Plan</div></div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <div class="page-header">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+        <div>
+          <h1 class="page-title">Support Tickets</h1>
+          <p class="page-subtitle">Get help with connection, billing, and technical issues.</p>
+        </div>
+        <button class="btn btn-primary" onclick="openModal('newTicketModal')">+ New Ticket</button>
+      </div>
+    </div>
+
+    <!-- QUICK HELP LINKS -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:24px">
+      <a href="https://t.me/mamacholsupport" target="_blank" class="feature-card" style="padding:16px;text-decoration:none;text-align:center">
+        <div style="font-size:1.5rem;margin-bottom:8px">✈️</div>
+        <div style="font-weight:600;font-size:0.85rem;color:white">Telegram Support</div>
+        <div style="font-size:0.75rem;color:var(--text-muted)">Fastest response</div>
+      </a>
+      <div class="feature-card" style="padding:16px;text-align:center;cursor:pointer" onclick="document.querySelector('.chatbot-toggle').click()">
+        <div style="font-size:1.5rem;margin-bottom:8px">🤖</div>
+        <div style="font-weight:600;font-size:0.85rem;color:white">AI Chat</div>
+        <div style="font-size:0.75rem;color:var(--text-muted)">Instant answers</div>
+      </div>
+      <a href="mailto:support@mamachol.online" class="feature-card" style="padding:16px;text-decoration:none;text-align:center">
+        <div style="font-size:1.5rem;margin-bottom:8px">📧</div>
+        <div style="font-weight:600;font-size:0.85rem;color:white">Email</div>
+        <div style="font-size:0.75rem;color:var(--text-muted)">support@mamachol.online</div>
+      </a>
+      <a href="/pages/support.html" class="feature-card" style="padding:16px;text-decoration:none;text-align:center">
+        <div style="font-size:1.5rem;margin-bottom:8px">📖</div>
+        <div style="font-weight:600;font-size:0.85rem;color:white">Help Center</div>
+        <div style="font-size:0.75rem;color:var(--text-muted)">FAQ & guides</div>
+      </a>
+    </div>
+
+    <!-- OPEN TICKETS -->
+    <div class="card fade-in">
+      <div class="card-header">
+        <h3 class="card-title">My Tickets</h3>
+        <div style="display:flex;gap:8px">
+          <span class="badge badge-warning">1 Open</span>
+          <span class="badge badge-success">2 Resolved</span>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Ticket ID</th><th>Subject</th><th>Category</th><th>Created</th><th>Last Reply</th><th>Status</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr>
+              <td style="color:var(--primary);font-weight:600">#MC-78341</td>
+              <td>Connection drops on Singapore server</td>
+              <td><span class="badge badge-info">Connection</span></td>
+              <td>Jan 14, 2025</td>
+              <td>Jan 14 (you)</td>
+              <td><span class="badge badge-warning">Awaiting Reply</span></td>
+              <td><button class="btn btn-primary btn-sm" onclick="openModal('ticketDetailModal')">View</button></td>
+            </tr>
+            <tr>
+              <td style="color:var(--primary);font-weight:600">#MC-65210</td>
+              <td>Payment not activating account</td>
+              <td><span class="badge badge-warning">Billing</span></td>
+              <td>Oct 6, 2024</td>
+              <td>Oct 7 (support)</td>
+              <td><span class="badge badge-success">Resolved</span></td>
+              <td><button class="btn btn-secondary btn-sm">View</button></td>
+            </tr>
+            <tr>
+              <td style="color:var(--primary);font-weight:600">#MC-52109</td>
+              <td>How to set up on iOS?</td>
+              <td><span class="badge badge-info">Setup</span></td>
+              <td>Jul 11, 2024</td>
+              <td>Jul 11 (support)</td>
+              <td><span class="badge badge-success">Resolved</span></td>
+              <td><button class="btn btn-secondary btn-sm">View</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- New Ticket Modal -->
+<div id="newTicketModal" class="modal-overlay">
+  <div class="modal" style="max-width:560px">
+    <div class="modal-header">
+      <h3 class="modal-title">🎫 New Support Ticket</h3>
+      <button class="modal-close" onclick="closeModal('newTicketModal')">✕</button>
+    </div>
+    <form onsubmit="submitNewTicket(event)">
+      <div class="form-group">
+        <label class="form-label">Category</label>
+        <select required>
+          <option value="">Select category...</option>
+          <option>Connection / Setup</option>
+          <option>Billing / Payment</option>
+          <option>Account Access</option>
+          <option>Speed / Performance</option>
+          <option>China-specific</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Subject</label>
+        <input type="text" placeholder="Brief issue summary" required />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Description</label>
+        <textarea rows="4" placeholder="Describe your issue in detail. Include error messages, your platform (Android/Windows/etc), and what you've already tried." required style="resize:vertical"></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Priority</label>
+        <select>
+          <option value="normal">Normal</option>
+          <option value="urgent">Urgent (VPN not working)</option>
+        </select>
+      </div>
+      <div style="display:flex;gap:12px">
+        <button type="submit" class="btn btn-primary w-full">Submit Ticket</button>
+        <button type="button" class="btn btn-secondary" onclick="closeModal('newTicketModal')" style="white-space:nowrap">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Ticket Detail Modal -->
+<div id="ticketDetailModal" class="modal-overlay">
+  <div class="modal" style="max-width:600px">
+    <div class="modal-header">
+      <h3 class="modal-title">#MC-78341 — Connection drops</h3>
+      <button class="modal-close" onclick="closeModal('ticketDetailModal')">✕</button>
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:16px">
+      <span class="badge badge-warning">Awaiting Reply</span>
+      <span class="badge badge-info">Connection</span>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:20px;max-height:280px;overflow-y:auto">
+      <div style="background:rgba(255,255,255,0.05);border-radius:12px;padding:14px">
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px"><strong style="font-size:0.85rem">You</strong><span style="font-size:0.75rem;color:var(--text-muted)">Jan 14, 2025 • 3:22 PM</span></div>
+        <p style="font-size:0.875rem;color:var(--text-secondary)">Hi, my VPN connection keeps dropping every 30-45 minutes on the Singapore server. I'm using v2rayNG on Android with VLESS protocol. I've tried restarting the app but the issue persists.</p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Reply</label>
+      <textarea rows="3" placeholder="Type your reply..." style="resize:vertical"></textarea>
+    </div>
+    <button class="btn btn-primary w-full" onclick="closeModal('ticketDetailModal');showToast('Reply sent!','success')">Send Reply</button>
+  </div>
+</div>
+
+<div class="chatbot-toggle" role="button">💬</div>
+<div class="chatbot-window">
+  <div class="chatbot-header"><div class="chatbot-avatar">🤖</div><div><div class="chatbot-title">MAMA CHOL AI</div><div class="chatbot-status">● Online</div></div><button class="chatbot-close modal-close" style="margin-left:auto">✕</button></div>
+  <div class="chatbot-messages"><div class="message bot"><div class="message-bubble">🎫 Describe your VPN issue and I'll help troubleshoot it instantly!</div></div></div>
+  <div class="chatbot-input-area"><input type="text" class="chatbot-input" placeholder="Describe your issue..." /><button class="chatbot-send">➤</button></div>
+</div>
+
+<script src="/assets/js/translations.js"></script>
+<script src="/assets/js/currency.js"></script>
+<script src="/assets/js/main.js"></script>
+<script>
+function submitNewTicket(e) {
+  e.preventDefault();
+  closeModal('newTicketModal');
+  showToast('✅ Ticket submitted! We\'ll respond within 12 hours.', 'success', 4000);
+}
+</script>
+</body>
+</html>

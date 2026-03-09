@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard — MAMA CHOL VPN</title>
+  <link rel="icon" href="/assets/images/logo.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body>
+<div class="dashboard-layout">
+
+  <aside class="sidebar">
+    <div class="sidebar-logo">🛡️ Admin Panel</div>
+    <div class="sidebar-section-title">Overview</div>
+    <nav class="sidebar-nav">
+      <a href="/admin/index.html" class="active"><span class="nav-icon">📊</span> Dashboard</a>
+      <a href="/admin/users.html"><span class="nav-icon">👥</span> Users</a>
+      <a href="/admin/servers.html"><span class="nav-icon">🌐</span> Servers</a>
+      <a href="/admin/payments.html"><span class="nav-icon">💰</span> Payments</a>
+      <a href="/admin/settings.html"><span class="nav-icon">⚙️</span> Settings</a>
+    </nav>
+    <div class="sidebar-section-title" style="margin-top:16px">Tools</div>
+    <nav class="sidebar-nav">
+      <a href="#"><span class="nav-icon">📨</span> Broadcasts</a>
+      <a href="#"><span class="nav-icon">📈</span> Analytics</a>
+      <a href="#"><span class="nav-icon">🔔</span> Alerts</a>
+      <a href="/"><span class="nav-icon">🔓</span> Logout</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#f093fb,#f5576c);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.85rem">AD</div>
+        <div><div style="font-size:0.85rem;font-weight:600">Admin</div><div style="font-size:0.75rem;color:var(--text-muted)">Super Administrator</div></div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <div class="page-header">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+        <div>
+          <h1 class="page-title">Admin Dashboard</h1>
+          <p class="page-subtitle">System overview — January 15, 2025</p>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-secondary btn-sm" onclick="openModal('broadcastModal')">📨 Broadcast</button>
+          <button class="btn btn-primary btn-sm">📊 Export Report</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- KEY METRICS -->
+    <div class="stats-grid">
+      <div class="stat-card fade-in">
+        <div class="stat-icon">👥</div>
+        <div class="stat-info">
+          <div class="label">Total Users</div>
+          <div class="value" data-count="51247" data-suffix="">51,247</div>
+          <div class="change">↑ +312 this week</div>
+        </div>
+      </div>
+      <div class="stat-card fade-in">
+        <div class="stat-icon">✅</div>
+        <div class="stat-info">
+          <div class="label">Active Subscriptions</div>
+          <div class="value" data-count="38942">38,942</div>
+          <div class="change">↑ +89 today</div>
+        </div>
+      </div>
+      <div class="stat-card fade-in">
+        <div class="stat-icon">💰</div>
+        <div class="stat-info">
+          <div class="label">Revenue (Jan)</div>
+          <div class="value">$14,287</div>
+          <div class="change">↑ +18% vs Dec</div>
+        </div>
+      </div>
+      <div class="stat-card fade-in">
+        <div class="stat-icon">📡</div>
+        <div class="stat-info">
+          <div class="label">Active Connections</div>
+          <div class="value" data-count="8421">8,421</div>
+          <div class="change">Right now</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECONDARY METRICS -->
+    <div class="stats-grid" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr))">
+      <div class="stat-card fade-in" style="flex-direction:column;gap:8px">
+        <div style="display:flex;align-items:center;gap:12px"><div class="stat-icon" style="width:40px;height:40px;font-size:1.2rem">🌐</div><div class="stat-info"><div class="label">Active Servers</div><div class="value" style="font-size:1.4rem">34</div></div></div>
+      </div>
+      <div class="stat-card fade-in" style="flex-direction:column;gap:8px">
+        <div style="display:flex;align-items:center;gap:12px"><div class="stat-icon" style="width:40px;height:40px;font-size:1.2rem">🎫</div><div class="stat-info"><div class="label">Open Tickets</div><div class="value" style="font-size:1.4rem">23</div></div></div>
+      </div>
+      <div class="stat-card fade-in" style="flex-direction:column;gap:8px">
+        <div style="display:flex;align-items:center;gap:12px"><div class="stat-icon" style="width:40px;height:40px;font-size:1.2rem">🔄</div><div class="stat-info"><div class="label">Pending Payments</div><div class="value" style="font-size:1.4rem">7</div></div></div>
+      </div>
+      <div class="stat-card fade-in" style="flex-direction:column;gap:8px">
+        <div style="display:flex;align-items:center;gap:12px"><div class="stat-icon" style="width:40px;height:40px;font-size:1.2rem">📈</div><div class="stat-info"><div class="label">Bandwidth Today</div><div class="value" style="font-size:1.4rem">4.7 TB</div></div></div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+      <!-- RECENT USERS -->
+      <div class="card fade-in">
+        <div class="card-header">
+          <h3 class="card-title">Recent Registrations</h3>
+          <a href="/admin/users.html" class="btn btn-secondary btn-sm">View All</a>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>User</th><th>Country</th><th>Plan</th><th>Joined</th></tr></thead>
+            <tbody>
+              <tr><td>rakib.k@gmail.com</td><td>🇧🇩</td><td><span class="badge badge-info">Standard</span></td><td>2h ago</td></tr>
+              <tr><td>wangwei123@163.com</td><td>🇨🇳</td><td><span class="badge badge-success">Premium</span></td><td>3h ago</td></tr>
+              <tr><td>arjun.m@outlook.com</td><td>🇮🇳</td><td><span class="badge badge-info">Standard</span></td><td>5h ago</td></tr>
+              <tr><td>fatima.a@mail.com</td><td>🇸🇦</td><td><span class="badge badge-warning">Basic</span></td><td>7h ago</td></tr>
+              <tr><td>david.l@gmail.com</td><td>🇺🇸</td><td><span class="badge badge-success">Premium</span></td><td>9h ago</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- RECENT PAYMENTS -->
+      <div class="card fade-in">
+        <div class="card-header">
+          <h3 class="card-title">Recent Payments</h3>
+          <a href="/admin/payments.html" class="btn btn-secondary btn-sm">View All</a>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>User</th><th>Amount</th><th>Method</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>rakib.k</td><td style="color:white;font-weight:600">৳180</td><td>bKash</td><td><span class="badge badge-success">Confirmed</span></td></tr>
+              <tr><td>wang.w</td><td style="color:white;font-weight:600">¥29.90</td><td>Crypto</td><td><span class="badge badge-success">Confirmed</span></td></tr>
+              <tr><td>arjun.m</td><td style="color:white;font-weight:600">₹199</td><td>Stripe</td><td><span class="badge badge-success">Confirmed</span></td></tr>
+              <tr><td>fatima.a</td><td style="color:white;font-weight:600">$4.99</td><td>Stripe</td><td><span class="badge badge-warning">Pending</span></td></tr>
+              <tr><td>sohel.r</td><td style="color:white;font-weight:600">৳70</td><td>Nagad</td><td><span class="badge badge-warning">Pending</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- SERVER STATUS -->
+    <div class="card fade-in">
+      <div class="card-header">
+        <h3 class="card-title">Server Health</h3>
+        <a href="/admin/servers.html" class="btn btn-secondary btn-sm">Manage Servers</a>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px">
+        <div style="padding:14px;border:1px solid var(--border);border-radius:12px">
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:0.85rem">🇸🇬 Singapore</span><span class="badge badge-success">●</span></div>
+          <div style="font-size:0.75rem;color:var(--text-muted)">Load: 68% • 2,341 users</div>
+        </div>
+        <div style="padding:14px;border:1px solid var(--border);border-radius:12px">
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:0.85rem">🇯🇵 Tokyo</span><span class="badge badge-success">●</span></div>
+          <div style="font-size:0.75rem;color:var(--text-muted)">Load: 52% • 1,876 users</div>
+        </div>
+        <div style="padding:14px;border:1px solid var(--border);border-radius:12px">
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:0.85rem">🇺🇸 Los Angeles</span><span class="badge badge-success">●</span></div>
+          <div style="font-size:0.75rem;color:var(--text-muted)">Load: 43% • 1,204 users</div>
+        </div>
+        <div style="padding:14px;border:1px solid var(--border);border-radius:12px">
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:0.85rem">🇩🇪 Frankfurt</span><span class="badge badge-warning">●</span></div>
+          <div style="font-size:0.75rem;color:var(--text-muted)">Load: 87% • 2,892 users</div>
+        </div>
+        <div style="padding:14px;border:1px solid var(--border);border-radius:12px">
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:0.85rem">🇭🇰 Hong Kong</span><span class="badge badge-success">●</span></div>
+          <div style="font-size:0.75rem;color:var(--text-muted)">Load: 61% • 2,108 users</div>
+        </div>
+        <div style="padding:14px;border:1px solid var(--border);border-radius:12px">
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:0.85rem">🇦🇪 Dubai</span><span class="badge badge-success">●</span></div>
+          <div style="font-size:0.75rem;color:var(--text-muted)">Load: 29% • 891 users</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACTIVITY LOG -->
+    <div class="card fade-in">
+      <div class="card-header"><h3 class="card-title">Recent Activity Log</h3></div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;align-items:center;gap:12px;padding:10px;border-radius:8px;background:rgba(255,255,255,0.02)">
+          <span style="font-size:1.2rem">✅</span>
+          <div style="flex:1"><div style="font-size:0.875rem">Payment confirmed for user <strong>wangwei123</strong> — ¥29.90 Premium</div><div style="font-size:0.75rem;color:var(--text-muted)">2 minutes ago</div></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:10px;border-radius:8px;background:rgba(255,255,255,0.02)">
+          <span style="font-size:1.2rem">🆕</span>
+          <div style="flex:1"><div style="font-size:0.875rem">New user registered: <strong>arjun.m@outlook.com</strong> from India</div><div style="font-size:0.75rem;color:var(--text-muted)">5 minutes ago</div></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:10px;border-radius:8px;background:rgba(255,255,255,0.02)">
+          <span style="font-size:1.2rem">⚠️</span>
+          <div style="flex:1"><div style="font-size:0.875rem">Frankfurt server load reached <strong>87%</strong> — consider adding capacity</div><div style="font-size:0.75rem;color:#f6ad55)">10 minutes ago</div></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:10px;border-radius:8px;background:rgba(255,255,255,0.02)">
+          <span style="font-size:1.2rem">🎫</span>
+          <div style="flex:1"><div style="font-size:0.875rem">Support ticket <strong>#MC-78341</strong> needs attention — connection issue</div><div style="font-size:0.75rem;color:var(--text-muted)">18 minutes ago</div></div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Broadcast Modal -->
+<div id="broadcastModal" class="modal-overlay">
+  <div class="modal">
+    <div class="modal-header"><h3 class="modal-title">📨 Send Broadcast Message</h3><button class="modal-close" onclick="closeModal('broadcastModal')">✕</button></div>
+    <div class="form-group"><label class="form-label">Target Audience</label>
+      <select><option>All Users</option><option>Premium Users</option><option>Standard Users</option><option>Basic Users</option><option>Expiring Soon (7 days)</option></select>
+    </div>
+    <div class="form-group"><label class="form-label">Channel</label>
+      <select><option>Email</option><option>Dashboard Notification</option><option>Telegram</option><option>All Channels</option></select>
+    </div>
+    <div class="form-group"><label class="form-label">Subject</label><input type="text" placeholder="Message subject..." /></div>
+    <div class="form-group"><label class="form-label">Message</label><textarea rows="4" placeholder="Write your message..." style="resize:vertical"></textarea></div>
+    <button class="btn btn-primary w-full" onclick="closeModal('broadcastModal');showToast('📨 Broadcast queued successfully!','success')">Send Broadcast</button>
+  </div>
+</div>
+
+<script src="/assets/js/translations.js"></script>
+<script src="/assets/js/currency.js"></script>
+<script src="/assets/js/main.js"></script>
+</body>
+</html>

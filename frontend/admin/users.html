@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Management — MAMA CHOL VPN Admin</title>
+  <link rel="icon" href="/assets/images/logo.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body>
+<div class="dashboard-layout">
+
+  <aside class="sidebar">
+    <div class="sidebar-logo">🛡️ Admin Panel</div>
+    <div class="sidebar-section-title">Overview</div>
+    <nav class="sidebar-nav">
+      <a href="/admin/index.html"><span class="nav-icon">📊</span> Dashboard</a>
+      <a href="/admin/users.html" class="active"><span class="nav-icon">👥</span> Users</a>
+      <a href="/admin/servers.html"><span class="nav-icon">🌐</span> Servers</a>
+      <a href="/admin/payments.html"><span class="nav-icon">💰</span> Payments</a>
+      <a href="/admin/settings.html"><span class="nav-icon">⚙️</span> Settings</a>
+    </nav>
+    <div class="sidebar-section-title" style="margin-top:16px">Tools</div>
+    <nav class="sidebar-nav">
+      <a href="#"><span class="nav-icon">📨</span> Broadcasts</a>
+      <a href="#"><span class="nav-icon">📈</span> Analytics</a>
+      <a href="/"><span class="nav-icon">🔓</span> Logout</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#f093fb,#f5576c);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.85rem">AD</div>
+        <div><div style="font-size:0.85rem;font-weight:600">Admin</div><div style="font-size:0.75rem;color:var(--text-muted)">Super Administrator</div></div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <div class="page-header">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+        <div>
+          <h1 class="page-title">User Management</h1>
+          <p class="page-subtitle">Total: 51,247 users • 38,942 active subscriptions</p>
+        </div>
+        <button class="btn btn-primary" onclick="openModal('addUserModal')">+ Add User</button>
+      </div>
+    </div>
+
+    <!-- FILTERS -->
+    <div class="card fade-in" style="margin-bottom:20px">
+      <div style="display:grid;grid-template-columns:1fr auto auto auto auto;gap:12px;align-items:end;flex-wrap:wrap">
+        <div>
+          <label class="form-label">Search</label>
+          <input type="text" id="userSearch" placeholder="Email, username, or ID..." oninput="filterUsers()" />
+        </div>
+        <div>
+          <label class="form-label">Plan</label>
+          <select id="planFilter" onchange="filterUsers()" style="width:auto">
+            <option value="">All Plans</option>
+            <option value="premium">Premium</option>
+            <option value="standard">Standard</option>
+            <option value="basic">Basic</option>
+            <option value="free">Free</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label">Country</label>
+          <select id="countryFilter" onchange="filterUsers()" style="width:auto">
+            <option value="">All Countries</option>
+            <option>🇧🇩 Bangladesh</option>
+            <option>🇨🇳 China</option>
+            <option>🇮🇳 India</option>
+            <option>🇺🇸 USA</option>
+            <option>🇸🇦 Saudi Arabia</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label">Status</label>
+          <select style="width:auto">
+            <option>All</option><option>Active</option><option>Expired</option><option>Banned</option>
+          </select>
+        </div>
+        <button class="btn btn-secondary btn-sm" style="white-space:nowrap">Export CSV</button>
+      </div>
+    </div>
+
+    <!-- USERS TABLE -->
+    <div class="card fade-in">
+      <div class="card-header">
+        <h3 class="card-title">Users <span style="color:var(--text-muted);font-weight:400">(showing 10 of 51,247)</span></h3>
+        <div style="display:flex;gap:8px">
+          <span class="badge badge-success">38,942 Active</span>
+          <span class="badge badge-error">142 Banned</span>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th><input type="checkbox" style="width:auto" /></th>
+              <th>User</th>
+              <th>Country</th>
+              <th>Plan</th>
+              <th>Expires</th>
+              <th>Data Used</th>
+              <th>Revenue</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="usersTableBody">
+            <tr>
+              <td><input type="checkbox" style="width:auto" /></td>
+              <td><div style="font-weight:600;color:white">rakib.khan</div><div style="font-size:0.75rem;color:var(--text-muted)">rakib.k@gmail.com</div></td>
+              <td>🇧🇩 BD</td>
+              <td><span class="badge badge-info">Standard</span></td>
+              <td>Apr 15, 2025</td>
+              <td>87 GB</td>
+              <td style="color:#48bb78">৳360</td>
+              <td><span class="badge badge-success">Active</span></td>
+              <td style="white-space:nowrap">
+                <button class="btn btn-secondary btn-sm" onclick="openModal('userDetailModal')">View</button>
+                <button class="btn btn-warning btn-sm" style="background:rgba(246,173,85,0.2);color:#f6ad55;border:1px solid rgba(246,173,85,0.3)" onclick="extendUser()">Extend</button>
+              </td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" style="width:auto" /></td>
+              <td><div style="font-weight:600;color:white">wangwei_cn</div><div style="font-size:0.75rem;color:var(--text-muted)">wangwei123@163.com</div></td>
+              <td>🇨🇳 CN</td>
+              <td><span class="badge badge-success">Premium</span></td>
+              <td>Jul 10, 2025</td>
+              <td>Unlimited</td>
+              <td style="color:#48bb78">¥89.70</td>
+              <td><span class="badge badge-success">Active</span></td>
+              <td style="white-space:nowrap"><button class="btn btn-secondary btn-sm">View</button></td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" style="width:auto" /></td>
+              <td><div style="font-weight:600;color:white">arjun.m</div><div style="font-size:0.75rem;color:var(--text-muted)">arjun.m@outlook.com</div></td>
+              <td>🇮🇳 IN</td>
+              <td><span class="badge badge-info">Standard</span></td>
+              <td>Feb 28, 2025</td>
+              <td>23 GB</td>
+              <td style="color:#48bb78">₹199</td>
+              <td><span class="badge badge-success">Active</span></td>
+              <td style="white-space:nowrap"><button class="btn btn-secondary btn-sm">View</button></td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" style="width:auto" /></td>
+              <td><div style="font-weight:600;color:white">fatima.al</div><div style="font-size:0.75rem;color:var(--text-muted)">fatima.a@mail.com</div></td>
+              <td>🇸🇦 SA</td>
+              <td><span class="badge badge-warning">Basic</span></td>
+              <td>Feb 1, 2025</td>
+              <td>32 GB</td>
+              <td style="color:#48bb78">$4.99</td>
+              <td><span class="badge badge-success">Active</span></td>
+              <td style="white-space:nowrap"><button class="btn btn-secondary btn-sm">View</button></td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" style="width:auto" /></td>
+              <td><div style="font-weight:600;color:white">david.l</div><div style="font-size:0.75rem;color:var(--text-muted)">david.l@gmail.com</div></td>
+              <td>🇺🇸 US</td>
+              <td><span class="badge badge-success">Premium</span></td>
+              <td>Mar 20, 2025</td>
+              <td>Unlimited</td>
+              <td style="color:#48bb78">$44.97</td>
+              <td><span class="badge badge-success">Active</span></td>
+              <td style="white-space:nowrap"><button class="btn btn-secondary btn-sm">View</button></td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" style="width:auto" /></td>
+              <td><div style="font-weight:600;color:var(--text-muted)">old.user2023</div><div style="font-size:0.75rem;color:var(--text-muted)">old@example.com</div></td>
+              <td>🇧🇩 BD</td>
+              <td><span class="badge" style="background:rgba(255,255,255,0.06);color:var(--text-muted)">Free</span></td>
+              <td>Expired</td>
+              <td>0 GB</td>
+              <td style="color:var(--text-muted)">৳70</td>
+              <td><span class="badge badge-error">Expired</span></td>
+              <td style="white-space:nowrap"><button class="btn btn-secondary btn-sm">View</button><button class="btn btn-danger btn-sm" onclick="banUser(this)">Ban</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- Pagination -->
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:20px;padding-top:16px;border-top:1px solid var(--border)">
+        <p style="font-size:0.8rem;color:var(--text-muted)">Showing 1-10 of 51,247 users</p>
+        <div style="display:flex;gap:6px">
+          <button class="btn btn-secondary btn-sm">← Prev</button>
+          <button class="btn btn-primary btn-sm">1</button>
+          <button class="btn btn-secondary btn-sm">2</button>
+          <button class="btn btn-secondary btn-sm">3</button>
+          <button class="btn btn-secondary btn-sm">... Next →</button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- User Detail Modal -->
+<div id="userDetailModal" class="modal-overlay">
+  <div class="modal" style="max-width:560px">
+    <div class="modal-header"><h3 class="modal-title">👤 User Details — rakib.khan</h3><button class="modal-close" onclick="closeModal('userDetailModal')">✕</button></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px">
+      <div><div class="form-label">Email</div><p style="font-size:0.875rem">rakib.k@gmail.com</p></div>
+      <div><div class="form-label">Username</div><p style="font-size:0.875rem">rakib.khan</p></div>
+      <div><div class="form-label">Plan</div><span class="badge badge-info">Standard</span></div>
+      <div><div class="form-label">Country</div><p style="font-size:0.875rem">🇧🇩 Bangladesh</p></div>
+      <div><div class="form-label">Registered</div><p style="font-size:0.875rem">Jan 3, 2025</p></div>
+      <div><div class="form-label">Expires</div><p style="font-size:0.875rem">Apr 15, 2025</p></div>
+      <div><div class="form-label">Data Used</div><p style="font-size:0.875rem">87 GB / 150 GB</p></div>
+      <div><div class="form-label">Total Revenue</div><p style="font-size:0.875rem;color:#48bb78">৳360</p></div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn btn-primary btn-sm" onclick="closeModal('userDetailModal');showToast('Extension applied!','success')">Extend 30 days</button>
+      <button class="btn btn-secondary btn-sm">Reset Password</button>
+      <button class="btn btn-secondary btn-sm">Regenerate Config</button>
+      <button class="btn btn-danger btn-sm">Ban User</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add User Modal -->
+<div id="addUserModal" class="modal-overlay">
+  <div class="modal">
+    <div class="modal-header"><h3 class="modal-title">+ Add New User</h3><button class="modal-close" onclick="closeModal('addUserModal')">✕</button></div>
+    <div class="form-group"><label class="form-label">Email</label><input type="email" placeholder="user@example.com" /></div>
+    <div class="form-group"><label class="form-label">Plan</label><select><option>Basic</option><option>Standard</option><option>Premium</option></select></div>
+    <div class="form-group"><label class="form-label">Duration</label><select><option>1 Month</option><option>3 Months</option><option>6 Months</option></select></div>
+    <div class="form-group"><label class="form-label">Notes</label><input type="text" placeholder="Optional admin notes..." /></div>
+    <button class="btn btn-primary w-full" onclick="closeModal('addUserModal');showToast('User created!','success')">Create User</button>
+  </div>
+</div>
+
+<script src="/assets/js/translations.js"></script>
+<script src="/assets/js/currency.js"></script>
+<script src="/assets/js/main.js"></script>
+<script>
+function filterUsers() { /* Would filter table rows in production */ }
+function banUser(btn) {
+  if (!confirm('Ban this user? They will lose access immediately.')) return;
+  btn.closest('tr').querySelector('.badge').className = 'badge badge-error';
+  btn.closest('tr').querySelector('.badge').textContent = 'Banned';
+  showToast('User banned.', 'warning');
+}
+function extendUser() { showToast('Account extended by 30 days.', 'success'); }
+</script>
+</body>
+</html>

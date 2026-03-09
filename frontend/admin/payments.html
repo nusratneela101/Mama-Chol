@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Payment Management — MAMA CHOL VPN Admin</title>
+  <link rel="icon" href="/assets/images/logo.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body>
+<div class="dashboard-layout">
+
+  <aside class="sidebar">
+    <div class="sidebar-logo">🛡️ Admin Panel</div>
+    <div class="sidebar-section-title">Overview</div>
+    <nav class="sidebar-nav">
+      <a href="/admin/index.html"><span class="nav-icon">📊</span> Dashboard</a>
+      <a href="/admin/users.html"><span class="nav-icon">👥</span> Users</a>
+      <a href="/admin/servers.html"><span class="nav-icon">🌐</span> Servers</a>
+      <a href="/admin/payments.html" class="active"><span class="nav-icon">💰</span> Payments</a>
+      <a href="/admin/settings.html"><span class="nav-icon">⚙️</span> Settings</a>
+    </nav>
+    <div class="sidebar-section-title" style="margin-top:16px">Tools</div>
+    <nav class="sidebar-nav">
+      <a href="#"><span class="nav-icon">📨</span> Broadcasts</a>
+      <a href="/"><span class="nav-icon">🔓</span> Logout</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#f093fb,#f5576c);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.85rem">AD</div>
+        <div><div style="font-size:0.85rem;font-weight:600">Admin</div><div style="font-size:0.75rem;color:var(--text-muted)">Super Administrator</div></div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <div class="page-header">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+        <div>
+          <h1 class="page-title">Payment Management</h1>
+          <p class="page-subtitle">Review, confirm, and refund payments.</p>
+        </div>
+        <button class="btn btn-primary btn-sm">Export CSV</button>
+      </div>
+    </div>
+
+    <!-- REVENUE STATS -->
+    <div class="stats-grid">
+      <div class="stat-card fade-in">
+        <div class="stat-icon">💰</div>
+        <div class="stat-info"><div class="label">January Revenue</div><div class="value">$14,287</div><div class="change">↑ +18% vs Dec</div></div>
+      </div>
+      <div class="stat-card fade-in">
+        <div class="stat-icon">🔄</div>
+        <div class="stat-info"><div class="label">Pending Review</div><div class="value">7</div><div class="change">Needs confirmation</div></div>
+      </div>
+      <div class="stat-card fade-in">
+        <div class="stat-icon">📈</div>
+        <div class="stat-info"><div class="label">Total All-Time</div><div class="value">$89,402</div><div class="change">Since launch</div></div>
+      </div>
+      <div class="stat-card fade-in">
+        <div class="stat-icon">↩️</div>
+        <div class="stat-info"><div class="label">Refunds (Jan)</div><div class="value">$142</div><div class="change">3 refund requests</div></div>
+      </div>
+    </div>
+
+    <!-- PENDING PAYMENTS (need manual confirmation) -->
+    <div class="card fade-in">
+      <div class="card-header">
+        <h3 class="card-title">⏳ Pending Confirmation</h3>
+        <span class="badge badge-warning">7 Pending</span>
+      </div>
+      <div class="alert alert-warning mb-3">
+        <span>⚠️</span>
+        <div>These bKash/Nagad payments require manual verification. Check the transaction ID against your mobile banking app before confirming.</div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>User</th><th>Amount</th><th>Method</th><th>Transaction ID</th><th>Plan</th><th>Submitted</th><th>Actions</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>fatima.a@mail.com</td>
+              <td style="color:white;font-weight:600">$4.99</td>
+              <td>Stripe</td>
+              <td style="font-family:var(--font-mono);font-size:0.8rem">pi_3abc123</td>
+              <td>Basic</td>
+              <td>2h ago</td>
+              <td style="white-space:nowrap">
+                <button class="btn btn-success btn-sm" style="background:rgba(72,187,120,0.2);color:#48bb78;border:1px solid rgba(72,187,120,0.3)" onclick="confirmPayment(this)">✓ Confirm</button>
+                <button class="btn btn-danger btn-sm" onclick="rejectPayment(this)">✕ Reject</button>
+              </td>
+            </tr>
+            <tr>
+              <td>sohel.r@yahoo.com</td>
+              <td style="color:white;font-weight:600">৳70</td>
+              <td>Nagad</td>
+              <td style="font-family:var(--font-mono);font-size:0.8rem">NG8N5K2L9P7Q</td>
+              <td>Basic</td>
+              <td>3h ago</td>
+              <td style="white-space:nowrap">
+                <button class="btn btn-success btn-sm" style="background:rgba(72,187,120,0.2);color:#48bb78;border:1px solid rgba(72,187,120,0.3)" onclick="confirmPayment(this)">✓ Confirm</button>
+                <button class="btn btn-danger btn-sm" onclick="rejectPayment(this)">✕ Reject</button>
+              </td>
+            </tr>
+            <tr>
+              <td>nasrin.b@gmail.com</td>
+              <td style="color:white;font-weight:600">৳180</td>
+              <td>bKash</td>
+              <td style="font-family:var(--font-mono);font-size:0.8rem">BK7R3T9MZ2X1</td>
+              <td>Standard</td>
+              <td>4h ago</td>
+              <td style="white-space:nowrap">
+                <button class="btn btn-success btn-sm" style="background:rgba(72,187,120,0.2);color:#48bb78;border:1px solid rgba(72,187,120,0.3)" onclick="confirmPayment(this)">✓ Confirm</button>
+                <button class="btn btn-danger btn-sm" onclick="rejectPayment(this)">✕ Reject</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- PAYMENT HISTORY -->
+    <div class="card fade-in">
+      <div class="card-header">
+        <h3 class="card-title">All Payments</h3>
+        <div style="display:flex;gap:8px;align-items:center">
+          <select style="width:auto;font-size:0.85rem;padding:6px 12px">
+            <option>All Methods</option><option>bKash</option><option>Nagad</option><option>Stripe</option><option>Crypto</option><option>USDT</option>
+          </select>
+          <select style="width:auto;font-size:0.85rem;padding:6px 12px">
+            <option>All Status</option><option>Confirmed</option><option>Pending</option><option>Rejected</option><option>Refunded</option>
+          </select>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Date</th><th>User</th><th>Amount</th><th>Currency</th><th>Method</th><th>Plan</th><th>Txn ID</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>Jan 15</td><td>rakib.khan</td><td style="color:white;font-weight:600">৳180</td><td>BDT</td><td>bKash</td><td>Standard/3mo</td><td style="font-family:var(--font-mono);font-size:0.8rem">BK1A2B3C4D</td><td><span class="badge badge-success">Confirmed</span></td></tr>
+            <tr><td>Jan 14</td><td>wangwei_cn</td><td style="color:white;font-weight:600">¥29.90</td><td>CNY</td><td>USDT</td><td>Premium/6mo</td><td style="font-family:var(--font-mono);font-size:0.8rem">TX9Z8Y7X6W</td><td><span class="badge badge-success">Confirmed</span></td></tr>
+            <tr><td>Jan 13</td><td>arjun.m</td><td style="color:white;font-weight:600">₹199</td><td>INR</td><td>Stripe</td><td>Standard/3mo</td><td style="font-family:var(--font-mono);font-size:0.8rem">pi_3def456</td><td><span class="badge badge-success">Confirmed</span></td></tr>
+            <tr><td>Jan 12</td><td>david.l</td><td style="color:white;font-weight:600">$14.99</td><td>USD</td><td>Stripe</td><td>Premium/6mo</td><td style="font-family:var(--font-mono);font-size:0.8rem">pi_3ghi789</td><td><span class="badge badge-success">Confirmed</span></td></tr>
+            <tr><td>Jan 10</td><td>old.user</td><td style="color:white;font-weight:600">$4.99</td><td>USD</td><td>Stripe</td><td>Basic/1mo</td><td style="font-family:var(--font-mono);font-size:0.8rem">pi_3jkl012</td><td><span class="badge badge-error">Refunded</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:16px;padding-top:12px;border-top:1px solid var(--border)">
+        <p style="font-size:0.8rem;color:var(--text-muted)">Showing 1-10 of 12,847 payments</p>
+        <div style="display:flex;gap:6px">
+          <button class="btn btn-secondary btn-sm">← Prev</button>
+          <button class="btn btn-primary btn-sm">1</button>
+          <button class="btn btn-secondary btn-sm">2</button>
+          <button class="btn btn-secondary btn-sm">Next →</button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="/assets/js/translations.js"></script>
+<script src="/assets/js/currency.js"></script>
+<script src="/assets/js/main.js"></script>
+<script>
+function confirmPayment(btn) {
+  const row = btn.closest('tr');
+  row.querySelector('td:last-child').innerHTML = '<span class="badge badge-success">Confirmed</span>';
+  showToast('✅ Payment confirmed. User account activated.', 'success');
+}
+function rejectPayment(btn) {
+  if (!confirm('Reject this payment? The user will be notified.')) return;
+  const row = btn.closest('tr');
+  row.querySelector('td:last-child').innerHTML = '<span class="badge badge-error">Rejected</span>';
+  showToast('Payment rejected.', 'warning');
+}
+</script>
+</body>
+</html>

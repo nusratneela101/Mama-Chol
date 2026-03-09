@@ -1,0 +1,18 @@
+{
+  "port": 443,
+  "protocol": "vless",
+  "settings": {
+    "clients": [],
+    "decryption": "none"
+  },
+  "streamSettings": {
+    "network": "ws",
+    "security": "tls",
+    "tlsSettings": {
+      "serverName": "mamachol.online",
+      "certificates": [{"certificateFile": "/etc/letsencrypt/live/mamachol.online/fullchain.pem", "keyFile": "/etc/letsencrypt/live/mamachol.online/privkey.pem"}]
+    },
+    "wsSettings": {"path": "/vpn"}
+  },
+  "sniffing": {"enabled": true, "destOverride": ["http", "tls"]}
+}

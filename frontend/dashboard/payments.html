@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Payments — MAMA CHOL VPN</title>
+  <link rel="icon" href="/assets/images/logo.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body>
+<div class="dashboard-layout">
+
+  <aside class="sidebar">
+    <div class="sidebar-logo">🛡️ MAMA CHOL VPN</div>
+    <div class="sidebar-section-title">Main</div>
+    <nav class="sidebar-nav">
+      <a href="/dashboard/index.html"><span class="nav-icon">📊</span> Dashboard</a>
+      <a href="/dashboard/config.html"><span class="nav-icon">⚙️</span> VPN Config</a>
+      <a href="/dashboard/devices.html"><span class="nav-icon">📱</span> Devices</a>
+      <a href="/dashboard/payments.html" class="active"><span class="nav-icon">💳</span> Payments</a>
+      <a href="/dashboard/support.html"><span class="nav-icon">🎫</span> Support</a>
+    </nav>
+    <div class="sidebar-section-title" style="margin-top:16px">Account</div>
+    <nav class="sidebar-nav">
+      <a href="#"><span class="nav-icon">👤</span> Profile</a>
+      <a href="/"><span class="nav-icon">🔓</span> Logout</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="width:36px;height:36px;border-radius:50%;background:var(--gradient-primary);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.85rem">RK</div>
+        <div><div style="font-size:0.85rem;font-weight:600">Rakib Khan</div><div style="font-size:0.75rem;color:var(--text-muted)">Standard Plan</div></div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <div class="page-header">
+      <h1 class="page-title">Payments & Subscription</h1>
+      <p class="page-subtitle">Manage your plan, view history, and make payments.</p>
+    </div>
+
+    <!-- NEW PAYMENT FORM -->
+    <div class="card fade-in" style="margin-bottom:24px">
+      <div class="card-header">
+        <h3 class="card-title">💳 New Payment / Renew Plan</h3>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px">
+        <div>
+          <!-- PLAN SELECTION -->
+          <h4 style="font-size:0.85rem;color:var(--text-muted);margin-bottom:12px;text-transform:uppercase;letter-spacing:0.05em">1. Choose Plan</h4>
+          <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:24px" id="planOptions">
+            <label style="display:flex;align-items:center;gap:12px;padding:14px;border:2px solid var(--border);border-radius:12px;cursor:pointer;transition:var(--transition)" class="plan-option" onclick="selectPlan(this,'basic')">
+              <input type="radio" name="plan" value="basic" style="width:auto;margin:0" />
+              <div style="flex:1"><div style="font-weight:700">Basic</div><div style="font-size:0.8rem;color:var(--text-muted)">1 Device • 50 GB/mo</div></div>
+              <div style="font-size:1.1rem;font-weight:800" data-plan-price="basic">৳70/mo</div>
+            </label>
+            <label style="display:flex;align-items:center;gap:12px;padding:14px;border:2px solid var(--primary);border-radius:12px;cursor:pointer;background:rgba(102,126,234,0.05);transition:var(--transition)" class="plan-option" onclick="selectPlan(this,'standard')">
+              <input type="radio" name="plan" value="standard" checked style="width:auto;margin:0" />
+              <div style="flex:1"><div style="font-weight:700">Standard <span class="badge badge-info" style="margin-left:4px">Current</span></div><div style="font-size:0.8rem;color:var(--text-muted)">3 Devices • 150 GB/mo</div></div>
+              <div style="font-size:1.1rem;font-weight:800" data-plan-price="standard">৳180/3mo</div>
+            </label>
+            <label style="display:flex;align-items:center;gap:12px;padding:14px;border:2px solid var(--border);border-radius:12px;cursor:pointer;transition:var(--transition)" class="plan-option" onclick="selectPlan(this,'premium')">
+              <input type="radio" name="plan" value="premium" style="width:auto;margin:0" />
+              <div style="flex:1"><div style="font-weight:700">Premium ⭐</div><div style="font-size:0.8rem;color:var(--text-muted)">5 Devices • Unlimited</div></div>
+              <div style="font-size:1.1rem;font-weight:800" data-plan-price="premium">৳300/6mo</div>
+            </label>
+          </div>
+
+          <!-- CURRENCY -->
+          <h4 style="font-size:0.85rem;color:var(--text-muted);margin-bottom:12px;text-transform:uppercase;letter-spacing:0.05em">2. Currency</h4>
+          <select class="currency-selector" style="margin-bottom:24px;border-radius:12px;width:100%">
+            <option value="BDT">৳ BDT — Bangladeshi Taka</option>
+            <option value="USD">$ USD — US Dollar</option>
+            <option value="CNY">¥ CNY — Chinese Yuan</option>
+            <option value="INR">₹ INR — Indian Rupee</option>
+            <option value="EUR">€ EUR — Euro</option>
+            <option value="USDT">₮ USDT — Tether</option>
+            <option value="BTC">₿ BTC — Bitcoin</option>
+          </select>
+        </div>
+
+        <div>
+          <!-- PAYMENT METHOD -->
+          <h4 style="font-size:0.85rem;color:var(--text-muted);margin-bottom:12px;text-transform:uppercase;letter-spacing:0.05em">3. Payment Method</h4>
+          <div class="payment-methods" style="margin-bottom:20px">
+            <div class="payment-method selected" data-method="bkash">
+              <div class="pm-icon">📱</div>
+              <div class="pm-name">bKash</div>
+            </div>
+            <div class="payment-method" data-method="nagad">
+              <div class="pm-icon">💚</div>
+              <div class="pm-name">Nagad</div>
+            </div>
+            <div class="payment-method" data-method="stripe">
+              <div class="pm-icon">💳</div>
+              <div class="pm-name">Card</div>
+            </div>
+            <div class="payment-method" data-method="crypto">
+              <div class="pm-icon">₿</div>
+              <div class="pm-name">Crypto</div>
+            </div>
+            <div class="payment-method" data-method="usdt">
+              <div class="pm-icon">₮</div>
+              <div class="pm-name">USDT</div>
+            </div>
+          </div>
+          <input type="hidden" id="selectedPaymentMethod" value="bkash" />
+
+          <!-- bKash Instructions (shown dynamically) -->
+          <div id="bkashInfo" class="alert alert-info" style="margin-bottom:16px">
+            <span>📱</span>
+            <div>
+              <strong>bKash Payment:</strong><br/>
+              Send to: <strong>01XXXXXXXXX</strong> (Merchant)<br/>
+              Reference: Your email / username<br/>
+              After payment, enter Transaction ID below.
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Transaction ID / Reference</label>
+            <input type="text" id="txnId" placeholder="e.g. 8N5K2L9P7Q" />
+            <div class="form-hint">Enter the transaction ID from your mobile banking app receipt.</div>
+          </div>
+
+          <button class="btn btn-primary w-full" onclick="submitPayment()">✅ Confirm Payment</button>
+          <p style="font-size:0.75rem;color:var(--text-muted);text-align:center;margin-top:10px">Activation is usually instant. Issues? <a href="/dashboard/support.html">Contact support</a>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAYMENT HISTORY -->
+    <div class="card fade-in">
+      <div class="card-header">
+        <h3 class="card-title">📜 Payment History</h3>
+        <button class="btn btn-secondary btn-sm">Download PDF</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Date</th><th>Plan</th><th>Amount</th><th>Method</th><th>Period</th><th>Status</th><th>Invoice</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Jan 3, 2025</td>
+              <td>Standard</td>
+              <td style="color:white;font-weight:600">৳180</td>
+              <td>bKash</td>
+              <td>Jan 15 – Apr 15</td>
+              <td><span class="badge badge-success">Paid</span></td>
+              <td><button class="btn btn-secondary btn-sm">📄</button></td>
+            </tr>
+            <tr>
+              <td>Oct 5, 2024</td>
+              <td>Standard</td>
+              <td style="color:white;font-weight:600">৳180</td>
+              <td>bKash</td>
+              <td>Oct 15 – Jan 15</td>
+              <td><span class="badge badge-success">Paid</span></td>
+              <td><button class="btn btn-secondary btn-sm">📄</button></td>
+            </tr>
+            <tr>
+              <td>Jul 2, 2024</td>
+              <td>Basic</td>
+              <td style="color:white;font-weight:600">৳70</td>
+              <td>Nagad</td>
+              <td>Jul 10 – Aug 10</td>
+              <td><span class="badge badge-success">Paid</span></td>
+              <td><button class="btn btn-secondary btn-sm">📄</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Payment Success Modal -->
+<div id="paymentSuccess" class="modal-overlay">
+  <div class="modal">
+    <div style="text-align:center;padding:12px 0">
+      <div style="font-size:3.5rem;margin-bottom:16px">🎉</div>
+      <h2 style="margin-bottom:8px">Payment Submitted!</h2>
+      <p style="color:var(--text-secondary);margin-bottom:20px">Your payment is being verified. Your plan will be activated within a few minutes.</p>
+      <div class="alert alert-success" style="text-align:left">
+        <span>✅</span>
+        <div>Transaction ID recorded. You'll receive a confirmation email shortly.</div>
+      </div>
+      <button class="btn btn-primary w-full mt-4" onclick="closeModal('paymentSuccess')">Got it!</button>
+    </div>
+  </div>
+</div>
+
+<script src="/assets/js/translations.js"></script>
+<script src="/assets/js/currency.js"></script>
+<script src="/assets/js/main.js"></script>
+<script>
+function selectPlan(el, plan) {
+  document.querySelectorAll('.plan-option').forEach(p => {
+    p.style.borderColor = 'var(--border)';
+    p.style.background = '';
+  });
+  el.style.borderColor = 'var(--primary)';
+  el.style.background = 'rgba(102,126,234,0.05)';
+}
+
+function submitPayment() {
+  const txn = document.getElementById('txnId').value.trim();
+  if (!txn) { showToast('Please enter your transaction ID.', 'warning'); return; }
+  openModal('paymentSuccess');
+}
+
+// Check URL param for pre-selected plan
+const urlPlan = new URLSearchParams(window.location.search).get('plan');
+if (urlPlan) {
+  const opt = document.querySelector(`.plan-option [value="${urlPlan}"]`);
+  if (opt) opt.closest('.plan-option').click();
+}
+</script>
+</body>
+</html>

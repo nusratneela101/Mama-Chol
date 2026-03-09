@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60" width="200" height="60">
+  <defs>
+    <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <!-- Shield icon -->
+  <path d="M20 8 L8 14 L8 28 C8 36 14 43 20 46 C26 43 32 36 32 28 L32 14 Z" fill="url(#logoGrad)"/>
+  <text x="14" y="32" font-family="Arial" font-weight="bold" font-size="11" fill="white">MC</text>
+  <!-- Text -->
+  <text x="40" y="28" font-family="Arial" font-weight="bold" font-size="16" fill="url(#logoGrad)">MAMA CHOL</text>
+  <text x="40" y="46" font-family="Arial" font-size="11" fill="#a0aec0" letter-spacing="4">VPN</text>
+</svg>

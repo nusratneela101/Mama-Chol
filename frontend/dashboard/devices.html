@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Devices — MAMA CHOL VPN</title>
+  <link rel="icon" href="/assets/images/logo.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body>
+<div class="dashboard-layout">
+
+  <aside class="sidebar">
+    <div class="sidebar-logo">🛡️ MAMA CHOL VPN</div>
+    <div class="sidebar-section-title">Main</div>
+    <nav class="sidebar-nav">
+      <a href="/dashboard/index.html"><span class="nav-icon">📊</span> Dashboard</a>
+      <a href="/dashboard/config.html"><span class="nav-icon">⚙️</span> VPN Config</a>
+      <a href="/dashboard/devices.html" class="active"><span class="nav-icon">📱</span> Devices</a>
+      <a href="/dashboard/payments.html"><span class="nav-icon">💳</span> Payments</a>
+      <a href="/dashboard/support.html"><span class="nav-icon">🎫</span> Support</a>
+    </nav>
+    <div class="sidebar-section-title" style="margin-top:16px">Account</div>
+    <nav class="sidebar-nav">
+      <a href="#"><span class="nav-icon">👤</span> Profile</a>
+      <a href="/"><span class="nav-icon">🔓</span> Logout</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="width:36px;height:36px;border-radius:50%;background:var(--gradient-primary);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.85rem">RK</div>
+        <div><div style="font-size:0.85rem;font-weight:600">Rakib Khan</div><div style="font-size:0.75rem;color:var(--text-muted)">Standard Plan</div></div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <div class="page-header">
+      <h1 class="page-title">Device Management</h1>
+      <p class="page-subtitle">You can connect up to 3 devices simultaneously on your Standard plan.</p>
+    </div>
+
+    <!-- Device slot indicator -->
+    <div class="card fade-in" style="margin-bottom:24px">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px">
+        <div>
+          <h3 style="margin-bottom:8px">Device Slots: <span class="text-gradient">2 / 3 Used</span></h3>
+          <div class="progress-bar" style="width:300px;max-width:100%"><div class="progress-fill" style="width:67%"></div></div>
+        </div>
+        <a href="/dashboard/payments.html?plan=premium" class="btn btn-primary btn-sm">Upgrade for 5 Devices</a>
+      </div>
+    </div>
+
+    <!-- DEVICES TABLE -->
+    <div class="card fade-in">
+      <div class="card-header">
+        <h3 class="card-title">Connected Devices</h3>
+        <span class="badge badge-info">2 active</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Device</th>
+              <th>Platform</th>
+              <th>Last Seen</th>
+              <th>Location</th>
+              <th>Server</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div style="display:flex;align-items:center;gap:10px">
+                  <span style="font-size:1.4rem">📱</span>
+                  <div><div style="font-weight:600;color:white">Rakib's Phone</div><div style="font-size:0.75rem;color:var(--text-muted)">Samsung Galaxy S24</div></div>
+                </div>
+              </td>
+              <td><span class="badge badge-info">Android 14</span></td>
+              <td>Now (active)</td>
+              <td>🇧🇩 Dhaka</td>
+              <td>🇸🇬 Singapore</td>
+              <td><span class="badge badge-success">● Connected</span></td>
+              <td><button class="btn btn-danger btn-sm" onclick="disconnectDevice(this, 'phone')">Disconnect</button></td>
+            </tr>
+            <tr>
+              <td>
+                <div style="display:flex;align-items:center;gap:10px">
+                  <span style="font-size:1.4rem">💻</span>
+                  <div><div style="font-weight:600;color:white">Work Laptop</div><div style="font-size:0.75rem;color:var(--text-muted)">Dell XPS 15</div></div>
+                </div>
+              </td>
+              <td><span class="badge badge-info">Windows 11</span></td>
+              <td>2 hours ago</td>
+              <td>🇧🇩 Dhaka</td>
+              <td>🇯🇵 Tokyo</td>
+              <td><span class="badge badge-warning">Idle</span></td>
+              <td><button class="btn btn-danger btn-sm" onclick="disconnectDevice(this, 'laptop')">Disconnect</button></td>
+            </tr>
+            <tr>
+              <td>
+                <div style="display:flex;align-items:center;gap:10px">
+                  <span style="font-size:1.4rem">📦</span>
+                  <div><div style="font-weight:600;color:var(--text-muted)">Empty Slot</div><div style="font-size:0.75rem;color:var(--text-muted)">Available</div></div>
+                </div>
+              </td>
+              <td>—</td>
+              <td>—</td>
+              <td>—</td>
+              <td>—</td>
+              <td><span class="badge" style="background:rgba(255,255,255,0.06);color:var(--text-muted)">Available</span></td>
+              <td><a href="/dashboard/config.html" class="btn btn-primary btn-sm">+ Add Device</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- DEVICE HISTORY -->
+    <div class="card fade-in">
+      <div class="card-header">
+        <h3 class="card-title">Device History (Last 30 Days)</h3>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Device</th><th>Platform</th><th>Total Usage</th><th>Sessions</th><th>Last Active</th></tr></thead>
+          <tbody>
+            <tr><td>📱 Rakib's Phone</td><td>Android</td><td>52.3 GB</td><td>84</td><td>Today</td></tr>
+            <tr><td>💻 Work Laptop</td><td>Windows</td><td>34.7 GB</td><td>41</td><td>Today</td></tr>
+            <tr><td>🖥️ Home Desktop</td><td>Windows</td><td>0 GB</td><td>0</td><td>Dec 30, 2024</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- HOW TO ADD A NEW DEVICE -->
+    <div class="card fade-in">
+      <div class="card-header"><h3 class="card-title">📱 How to Add a New Device</h3></div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px">
+        <div class="feature-card" style="padding:20px">
+          <div class="feature-icon" style="width:44px;height:44px;font-size:1.4rem;margin-bottom:12px">1️⃣</div>
+          <h4 style="font-size:0.9rem;margin-bottom:6px">Get VPN App</h4>
+          <p style="font-size:0.8rem;color:var(--text-secondary)">Install v2rayNG (Android), Shadowrocket (iOS), or v2rayN (Windows).</p>
+        </div>
+        <div class="feature-card" style="padding:20px">
+          <div class="feature-icon" style="width:44px;height:44px;font-size:1.4rem;margin-bottom:12px">2️⃣</div>
+          <h4 style="font-size:0.9rem;margin-bottom:6px">Scan QR Code</h4>
+          <p style="font-size:0.8rem;color:var(--text-secondary)">Open the <a href="/dashboard/config.html#qr">Config page</a> and scan the QR code with your new device.</p>
+        </div>
+        <div class="feature-card" style="padding:20px">
+          <div class="feature-icon" style="width:44px;height:44px;font-size:1.4rem;margin-bottom:12px">3️⃣</div>
+          <h4 style="font-size:0.9rem;margin-bottom:6px">Connect</h4>
+          <p style="font-size:0.8rem;color:var(--text-secondary)">Select a server and tap connect. Your new device will appear in this list automatically.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="/assets/js/translations.js"></script>
+<script src="/assets/js/currency.js"></script>
+<script src="/assets/js/main.js"></script>
+<script>
+function disconnectDevice(btn, deviceId) {
+  if (!confirm('Disconnect this device? It will be immediately logged out of the VPN.')) return;
+  const row = btn.closest('tr');
+  btn.textContent = '⏳';
+  btn.disabled = true;
+  setTimeout(() => {
+    row.querySelector('.badge').className = 'badge badge-error';
+    row.querySelector('.badge').textContent = '✗ Disconnected';
+    btn.textContent = 'Remove';
+    btn.disabled = false;
+    showToast('Device disconnected successfully.', 'success');
+  }, 800);
+}
+</script>
+</body>
+</html>

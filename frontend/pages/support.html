@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="MAMA CHOL VPN Support — FAQ, contact form, live AI chat, and ticket system." />
+  <title>Support — MAMA CHOL VPN</title>
+  <link rel="icon" href="/assets/images/logo.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="/" class="nav-logo"><img src="/assets/images/logo.svg" alt="MAMA CHOL VPN" width="36" height="36" />MAMA CHOL VPN</a>
+    <ul class="nav-links">
+      <li><a href="/pages/features.html">Features</a></li><li><a href="/pages/pricing.html">Pricing</a></li>
+      <li><a href="/pages/download.html">Download</a></li><li><a href="/pages/support.html" class="active">Support</a></li><li><a href="/pages/blog.html">Blog</a></li>
+    </ul>
+    <div class="nav-actions">
+      <select class="lang-selector"><option value="en">🇺🇸 EN</option><option value="bn">🇧🇩 বাংলা</option><option value="zh">🇨🇳 中文</option><option value="hi">🇮🇳 हिंदी</option><option value="ar">🇸🇦 AR</option></select>
+      <a href="/dashboard/index.html" class="btn btn-secondary btn-sm">Login</a>
+      <a href="/dashboard/payments.html" class="btn btn-primary btn-sm">Get Started</a>
+    </div>
+    <button class="hamburger"><span></span><span></span><span></span></button>
+  </div>
+  <div class="mobile-menu">
+    <a href="/">Home</a><a href="/pages/features.html">Features</a><a href="/pages/pricing.html">Pricing</a>
+    <a href="/pages/download.html">Download</a><a href="/dashboard/index.html">Login</a>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="container">
+    <div class="section-tag">Support</div>
+    <h1 class="page-hero-title">How Can We Help?</h1>
+    <p class="page-hero-subtitle">Browse our FAQ, chat with our AI assistant, or submit a ticket. We typically respond within 12 hours.</p>
+  </div>
+</div>
+
+<!-- SUPPORT CHANNELS -->
+<section>
+  <div class="container">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;margin-bottom:60px">
+      <div class="feature-card fade-in text-center">
+        <div class="feature-icon" style="margin:0 auto 16px">🤖</div>
+        <h3 class="feature-title">AI Chat</h3>
+        <p class="feature-desc">Instant answers in 5 languages, 24/7. Click the chat bubble at the bottom right.</p>
+        <div class="mt-3"><span class="badge badge-success">Available Now</span></div>
+      </div>
+      <div class="feature-card fade-in text-center">
+        <div class="feature-icon" style="margin:0 auto 16px">✈️</div>
+        <h3 class="feature-title">Telegram</h3>
+        <p class="feature-desc">Join our community channel for announcements and direct support.</p>
+        <a href="https://t.me/mamacholsupport" target="_blank" rel="noopener" class="btn btn-primary btn-sm mt-3">Open Telegram</a>
+      </div>
+      <div class="feature-card fade-in text-center">
+        <div class="feature-icon" style="margin:0 auto 16px">📧</div>
+        <h3 class="feature-title">Email Support</h3>
+        <p class="feature-desc">For billing and account issues. Response within 12-48 hours.</p>
+        <a href="mailto:support@mamachol.online" class="btn btn-secondary btn-sm mt-3">Send Email</a>
+      </div>
+      <div class="feature-card fade-in text-center">
+        <div class="feature-icon" style="margin:0 auto 16px">🎫</div>
+        <h3 class="feature-title">Ticket System</h3>
+        <p class="feature-desc">Submit a detailed support ticket for complex issues.</p>
+        <a href="#submit-ticket" class="btn btn-outline btn-sm mt-3">Submit Ticket</a>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start">
+      <!-- FAQ -->
+      <div>
+        <div class="section-header" style="text-align:left;margin-bottom:28px">
+          <div class="section-tag">FAQ</div>
+          <h2 class="section-title" style="font-size:1.75rem">Frequently Asked Questions</h2>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">My VPN is not connecting. What should I do? <span class="faq-icon">+</span></button>
+          <div class="faq-answer"><div class="faq-answer-inner">
+            <ol style="padding-left:16px;list-style:decimal;line-height:2">
+              <li>Try switching to a different protocol (VLESS → VMess → Trojan)</li>
+              <li>Update your subscription URL in the client app</li>
+              <li>Check if your account is still active in the dashboard</li>
+              <li>Try a different server location</li>
+              <li>Restart the VPN client app and your phone/computer</li>
+            </ol>
+          </div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">How do I set up the VPN in China? <span class="faq-icon">+</span></button>
+          <div class="faq-answer"><div class="faq-answer-inner">
+            For China, use the VLESS Reality protocol for best results. Make sure to download the VPN app BEFORE entering China. If your current connection is blocked, switch to VMess WebSocket + CDN mode. Contact support for our China-specific server list.
+          </div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">I paid but my account wasn't activated. <span class="faq-icon">+</span></button>
+          <div class="faq-answer"><div class="faq-answer-inner">
+            For bKash/Nagad payments, make sure you entered the correct transaction ID in the payment confirmation form. Activation is usually instant but can take up to 30 minutes. If still not activated after 1 hour, email us at support@mamachol.online with your transaction ID.
+          </div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">My internet is slow with the VPN on. <span class="faq-icon">+</span></button>
+          <div class="faq-answer"><div class="faq-answer-inner">
+            Try these steps: (1) Switch to VLESS Reality protocol — it's the fastest. (2) Select a server geographically closer to you. (3) If using WiFi, try switching to mobile data. (4) Check your base internet speed without VPN to compare.
+          </div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">How do I renew my subscription? <span class="faq-icon">+</span></button>
+          <div class="faq-answer"><div class="faq-answer-inner">
+            Log in to your dashboard at /dashboard/index.html and click "Renew Plan" or "Upgrade Plan". You'll be taken to the payment page. Your configuration will remain the same after renewal — no need to reconfigure your VPN app.
+          </div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">Can I use MAMA CHOL VPN on a router? <span class="faq-icon">+</span></button>
+          <div class="faq-answer"><div class="faq-answer-inner">
+            Yes! Routers running OpenWrt, Padavan, or Merlin firmware can use our Xray/v2ray configuration. Download the JSON config from your dashboard and follow our router setup guide available on Telegram. This protects all devices on your home network.
+          </div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">What is a subscription URL? <span class="faq-icon">+</span></button>
+          <div class="faq-answer"><div class="faq-answer-inner">
+            A subscription URL is a special link that contains all your server configurations. When you add it to your VPN client (v2rayNG, v2rayN, etc.), the app automatically downloads the latest server list. This means when we add new servers or update existing ones, your app updates automatically without any manual configuration.
+          </div></div>
+        </div>
+      </div>
+
+      <!-- CONTACT FORM / TICKET -->
+      <div id="submit-ticket">
+        <div class="section-header" style="text-align:left;margin-bottom:28px">
+          <div class="section-tag">Contact</div>
+          <h2 class="section-title" style="font-size:1.75rem">Submit a Support Ticket</h2>
+        </div>
+        <div class="card">
+          <form id="ticketForm" onsubmit="submitTicket(event)">
+            <div class="form-group">
+              <label class="form-label" for="ticketName">Your Name</label>
+              <input type="text" id="ticketName" placeholder="Full name" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="ticketEmail">Email Address</label>
+              <input type="email" id="ticketEmail" placeholder="you@example.com" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="ticketCategory">Issue Category</label>
+              <select id="ticketCategory" required>
+                <option value="">Select a category...</option>
+                <option value="connection">Connection / Setup Issue</option>
+                <option value="billing">Billing / Payment</option>
+                <option value="account">Account Access</option>
+                <option value="speed">Speed / Performance</option>
+                <option value="china">China-specific Issue</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="ticketPlatform">Your Platform</label>
+              <select id="ticketPlatform">
+                <option value="">Select platform...</option>
+                <option value="android">Android</option>
+                <option value="ios">iOS / iPhone</option>
+                <option value="windows">Windows</option>
+                <option value="macos">macOS</option>
+                <option value="linux">Linux</option>
+                <option value="router">Router</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="ticketSubject">Subject</label>
+              <input type="text" id="ticketSubject" placeholder="Brief description of your issue" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="ticketMessage">Message</label>
+              <textarea id="ticketMessage" rows="5" placeholder="Please describe your issue in detail. Include any error messages, what you've already tried, and your username/order ID if applicable." required style="resize:vertical"></textarea>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="ticketLanguage">Preferred Response Language</label>
+              <select id="ticketLanguage">
+                <option value="en">English</option>
+                <option value="bn">বাংলা (Bengali)</option>
+                <option value="zh">中文 (Chinese)</option>
+                <option value="hi">हिंदी (Hindi)</option>
+                <option value="ar">العربية (Arabic)</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary w-full">🎫 Submit Ticket</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand"><a href="/" class="nav-logo">MAMA CHOL VPN</a><p>Secure, fast, and unrestricted internet for everyone.</p><div class="footer-socials"><a href="https://t.me/mamacholVPN" class="social-link">✈️</a><a href="#" class="social-link">📘</a></div></div>
+      <div class="footer-col"><h4>Product</h4><ul><li><a href="/pages/features.html">Features</a></li><li><a href="/pages/pricing.html">Pricing</a></li><li><a href="/pages/download.html">Download</a></li></ul></div>
+      <div class="footer-col"><h4>Support</h4><ul><li><a href="/pages/support.html">Help Center</a></li><li><a href="https://t.me/mamacholsupport">Telegram</a></li><li><a href="mailto:support@mamachol.online">Email</a></li></ul></div>
+      <div class="footer-col"><h4>Company</h4><ul><li><a href="#">About</a></li><li><a href="#">Privacy Policy</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><p>© 2025 MAMA CHOL VPN. All rights reserved.</p><p>🔒 No-log policy • 🌍 30+ Countries</p></div>
+  </div>
+</footer>
+
+<div class="chatbot-toggle" role="button">💬</div>
+<div class="chatbot-window">
+  <div class="chatbot-header"><div class="chatbot-avatar">🤖</div><div><div class="chatbot-title">MAMA CHOL AI</div><div class="chatbot-status">● Online — Support Mode</div></div><button class="chatbot-close modal-close" style="margin-left:auto">✕</button></div>
+  <div class="chatbot-messages"><div class="message bot"><div class="message-bubble">🎫 Need help? Describe your issue and I'll assist you right away!</div></div></div>
+  <div class="chatbot-input-area"><input type="text" class="chatbot-input" placeholder="Describe your issue..." /><button class="chatbot-send">➤</button></div>
+</div>
+
+<script src="/assets/js/translations.js"></script>
+<script src="/assets/js/currency.js"></script>
+<script src="/assets/js/main.js"></script>
+<script>
+function submitTicket(e) {
+  e.preventDefault();
+  const btn = e.target.querySelector('button[type=submit]');
+  btn.textContent = '⏳ Submitting...';
+  btn.disabled = true;
+  // Simulate API call
+  setTimeout(() => {
+    e.target.innerHTML = `
+      <div class="alert alert-success" style="text-align:center;padding:32px">
+        <div style="font-size:2.5rem;margin-bottom:12px">✅</div>
+        <h3 style="margin-bottom:8px;color:#48bb78">Ticket Submitted!</h3>
+        <p style="color:var(--text-secondary)">Your ticket has been received. We'll respond to your email within 12 hours.</p>
+        <p style="color:var(--text-muted);font-size:0.8rem;margin-top:12px">Ticket ID: #MC-${Math.floor(Math.random()*90000+10000)}</p>
+      </div>`;
+  }, 1200);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+name: CI
+
+on:
+  push:
+    branches: ["main", "develop"]
+  pull_request:
+    branches: ["main", "develop"]
+
+jobs:
+  test:
+    name: Lint & Test (Python 3.11)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install ruff
+
+      - name: Lint with ruff
+        run: |
+          ruff check backend/ tests/ --select E,W,F --ignore E501
+
+      - name: Run tests
+        env:
+          DATABASE_URL: "sqlite:///./test.db"
+          SECRET_KEY: "ci-test-secret-key-do-not-use-in-production"
+          DEBUG: "true"
+          ALLOWED_ORIGINS: '["http://localhost"]'
+          BKASH_APP_KEY: "test"
+          BKASH_APP_SECRET: "test"
+          BKASH_USERNAME: "test"
+          BKASH_PASSWORD: "test"
+          NAGAD_MERCHANT_ID: "test"
+          NAGAD_MERCHANT_NUMBER: "test"
+          NAGAD_PUBLIC_KEY: "test"
+          NAGAD_PRIVATE_KEY: "test"
+          STRIPE_SECRET_KEY: "sk_test_dummy"
+          STRIPE_WEBHOOK_SECRET: "whsec_dummy"
+          SMTP_HOST: "localhost"
+          SMTP_PORT: "587"
+          SMTP_USER: "test@example.com"
+          SMTP_PASSWORD: "test"
+          TELEGRAM_BOT_TOKEN: "0000000000:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          TELEGRAM_ADMIN_CHAT_ID: "0"
+          XUI_URL: "http://localhost:54321"
+          XUI_USERNAME: "admin"
+          XUI_PASSWORD: "admin"
+          OLLAMA_URL: "http://localhost:11434"
+          OLLAMA_MODEL: "mistral"
+          EXCHANGE_RATE_API_KEY: "test"
+          REDIS_URL: "redis://localhost:6379"
+        run: |
+          pytest tests/ -v --tb=short

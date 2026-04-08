@@ -52,7 +52,7 @@ jobs:
     needs: build-and-push
     environment: production
     # Skip deployment if secrets are not configured
-    if: ${{ secrets.DEPLOY_HOST != '' && secrets.DEPLOY_USER != '' && secrets.DEPLOY_SSH_KEY != '' }}
+    if: ${{ secrets.DEPLOY_HOST != '' }}
     permissions: {}
 
     steps:

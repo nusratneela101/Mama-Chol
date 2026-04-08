@@ -57,6 +57,7 @@ async def admin_dashboard(
     ).scalar()
 
     monthly_revenue = db.query(func.sum(Payment.amount)).filter(
+        Payment.status == PaymentStatus.COMPLETED,
         Payment.created_at >= month_start
     ).scalar() or 0
 

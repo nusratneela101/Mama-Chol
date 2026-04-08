@@ -50,6 +50,8 @@ class PaymentMethod(str, enum.Enum):
     BKASH = "bkash"
     NAGAD = "nagad"
     STRIPE = "stripe"
+    ALIPAY = "alipay"
+    WECHAT_PAY = "wechat_pay"
     CRYPTO_BTC = "crypto_btc"
     CRYPTO_ETH = "crypto_eth"
     CRYPTO_USDT = "crypto_usdt"

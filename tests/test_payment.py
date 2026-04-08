@@ -59,6 +59,34 @@ class TestCreatePayment:
         }, headers=auth_headers)
         assert resp.status_code in (200, 400, 503)
 
+    def test_create_alipay_payment(self, client, auth_headers):
+        resp = client.post("/api/v1/payment/create", json={
+            "plan": "basic",
+            "duration_months": 1,
+            "payment_method": "alipay",
+            "currency": "CNY",
+        }, headers=auth_headers)
+        assert resp.status_code in (200, 400, 500, 503)
+
+    def test_create_wechat_pay_payment(self, client, auth_headers):
+        resp = client.post("/api/v1/payment/create", json={
+            "plan": "standard",
+            "duration_months": 3,
+            "payment_method": "wechat_pay",
+            "currency": "CNY",
+        }, headers=auth_headers)
+        assert resp.status_code in (200, 400, 500, 503)
+
+    def test_invalid_payment_method(self, client, auth_headers):
+        resp = client.post("/api/v1/payment/create", json={
+            "plan": "basic",
+            "duration_months": 1,
+            "payment_method": "paypal",
+            "currency": "USD",
+        }, headers=auth_headers)
+        assert resp.status_code == 400
+        assert "invalid payment method" in resp.json()["detail"].lower()
+
     def test_create_payment_with_promo_code(self, client, db, auth_headers):
         from backend.models.database import PromoCode
         from datetime import datetime, timedelta

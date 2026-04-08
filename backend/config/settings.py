@@ -63,8 +63,8 @@ class Settings(BaseSettings):
     deepseek_api_url: str = "https://api.deepseek.com"
     deepseek_model: str = "deepseek-chat"
 
-    # Exchange Rate
-    exchange_rate_api_key: str = ""
+    # Exchange Rate (APIs are free and require no key)
+    exchange_rate_cache_ttl: int = 1800  # seconds (30 minutes)
 
     class Config:
         env_file = ".env"

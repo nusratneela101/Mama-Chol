@@ -1,5 +1,4 @@
 """Tests for payment endpoints."""
-import pytest
 
 
 class TestCreatePayment:

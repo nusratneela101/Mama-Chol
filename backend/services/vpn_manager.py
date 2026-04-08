@@ -1,5 +1,4 @@
 """VPN management service for X-UI/Xray integration."""
-import uuid
 import logging
 import httpx
 from typing import Optional, Dict, Any, List
@@ -119,8 +118,8 @@ class VPNManager:
     def _build_vless_link(self, uid: str, remark: str) -> str:
         """Build VLESS Reality link."""
         params = (
-            f"type=tcp&security=reality&sni=www.google.com"
-            f"&fp=chrome&pbk=your-public-key&sid=your-short-id&flow=xtls-rprx-vision"
+            "type=tcp&security=reality&sni=www.google.com"
+            "&fp=chrome&pbk=your-public-key&sid=your-short-id&flow=xtls-rprx-vision"
         )
         return f"vless://{uid}@{SERVER_HOST}:443?{params}#{remark}"
 

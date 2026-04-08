@@ -2,16 +2,16 @@
 from datetime import datetime, timedelta
 from typing import Optional
 from fastapi import APIRouter, Depends, HTTPException, Query
-from sqlalchemy import func, and_
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
 
 from backend.models.database import (
     get_db, User, Subscription, Payment, Server,
-    PaymentStatus, PaymentMethod, ServerStatus, SupportTicket, TicketStatus
+    PaymentStatus, ServerStatus, SupportTicket, TicketStatus
 )
 from backend.api.auth import get_admin_user
-from backend.utils.helpers import bytes_to_gb, get_plan_device_limit, get_plan_data_limit_gb, gb_to_bytes
+from backend.utils.helpers import get_plan_device_limit, get_plan_data_limit_gb
 
 router = APIRouter()
 
@@ -52,12 +52,11 @@ async def admin_dashboard(
 
     total_users = db.query(func.count(User.id)).scalar()
     active_subs = db.query(func.count(Subscription.id)).filter(
-        Subscription.is_active == True,
+        Subscription.is_active.is_(True),
         Subscription.expires_at > now
     ).scalar()
 
     monthly_revenue = db.query(func.sum(Payment.amount)).filter(
-        Payment.status == PaymentStatus.COMPLETED,
         Payment.created_at >= month_start
     ).scalar() or 0
 
@@ -113,9 +112,9 @@ async def list_users(
             (User.email.ilike(search_term)) | (User.full_name.ilike(search_term))
         )
     if status == "active":
-        query = query.filter(User.is_active == True)
+        query = query.filter(User.is_active.is_(True))
     elif status == "suspended":
-        query = query.filter(User.is_active == False)
+        query = query.filter(User.is_active.is_(False))
 
     total = query.count()
     users = query.order_by(User.created_at.desc()).offset((page - 1) * limit).limit(limit).all()
@@ -123,7 +122,7 @@ async def list_users(
     result = []
     for u in users:
         sub = db.query(Subscription).filter(
-            Subscription.user_id == u.id, Subscription.is_active == True
+            Subscription.user_id == u.id, Subscription.is_active.is_(True)
         ).order_by(Subscription.expires_at.desc()).first()
 
         result.append({
@@ -158,7 +157,7 @@ async def update_user(
 
     if data.plan:
         sub = db.query(Subscription).filter(
-            Subscription.user_id == user_id, Subscription.is_active == True
+            Subscription.user_id == user_id, Subscription.is_active.is_(True)
         ).first()
         from backend.models.database import PlanType
         if sub:
@@ -169,7 +168,7 @@ async def update_user(
 
     if data.extend_days:
         sub = db.query(Subscription).filter(
-            Subscription.user_id == user_id, Subscription.is_active == True
+            Subscription.user_id == user_id, Subscription.is_active.is_(True)
         ).first()
         if sub:
             base = max(sub.expires_at, datetime.utcnow())

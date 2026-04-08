@@ -1,6 +1,5 @@
 """Tests for VPN server and usage endpoints."""
 from backend.models.database import Server, ServerStatus, VPNConfig
-from tests.conftest import make_user
 
 
 def _add_server(db, name="SG-01", location="Singapore", country_code="SG",

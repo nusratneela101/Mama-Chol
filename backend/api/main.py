@@ -83,7 +83,6 @@ async def health_check():
     return {"status": "ok", "version": settings.version, "service": settings.app_name}
 
 
-@app.get("/api/v1/chat", tags=["AI"])
 @app.post("/api/v1/chat", tags=["AI"])
 async def ai_chat(request: Request):
     """AI chatbot endpoint."""
@@ -103,7 +102,6 @@ async def ai_chat(request: Request):
 @app.get("/api/v1/sub/{token}", tags=["VPN"])
 async def subscription_link(token: str):
     """Return subscription URL content (all VPN links in one)."""
-    from sqlalchemy.orm import Session
     from backend.models.database import get_db, VPNConfig
     import base64
 

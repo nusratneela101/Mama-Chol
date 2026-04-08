@@ -51,9 +51,17 @@ jobs:
     runs-on: ubuntu-latest
     needs: build-and-push
     environment: production
+    # Skip deployment if secrets are not configured
+    if: ${{ secrets.DEPLOY_HOST != '' && secrets.DEPLOY_USER != '' && secrets.DEPLOY_SSH_KEY != '' }}
     permissions: {}
 
     steps:
+      - name: Check deployment secrets
+        run: |
+          # Required secrets: DEPLOY_HOST, DEPLOY_USER, DEPLOY_SSH_KEY
+          # Set these in repository Settings → Secrets and variables → Actions
+          echo "Deploying to ${{ secrets.DEPLOY_HOST }}"
+
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:

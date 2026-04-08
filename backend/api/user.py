@@ -1,6 +1,6 @@
 """User API endpoints."""
 from typing import Optional
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
 
@@ -30,7 +30,7 @@ async def get_profile(
     """Get current user profile."""
     subscription = db.query(Subscription).filter(
         Subscription.user_id == current_user.id,
-        Subscription.is_active == True
+        Subscription.is_active.is_(True)
     ).order_by(Subscription.expires_at.desc()).first()
 
     return {
@@ -79,7 +79,7 @@ async def get_dashboard(
     """Get dashboard statistics."""
     subscription = db.query(Subscription).filter(
         Subscription.user_id == current_user.id,
-        Subscription.is_active == True
+        Subscription.is_active.is_(True)
     ).order_by(Subscription.expires_at.desc()).first()
 
     payments = db.query(Payment).filter(

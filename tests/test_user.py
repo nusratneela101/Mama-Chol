@@ -1,5 +1,4 @@
 """Tests for user profile and dashboard endpoints."""
-from tests.conftest import make_user
 
 
 class TestProfile:

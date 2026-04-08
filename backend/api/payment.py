@@ -112,6 +112,8 @@ async def create_payment(
         "bkash": PaymentMethod.BKASH,
         "nagad": PaymentMethod.NAGAD,
         "stripe": PaymentMethod.STRIPE,
+        "alipay": PaymentMethod.ALIPAY,       # via Stripe
+        "wechat_pay": PaymentMethod.WECHAT_PAY,  # via Stripe
         "crypto_btc": PaymentMethod.CRYPTO_BTC,
         "crypto_eth": PaymentMethod.CRYPTO_ETH,
         "crypto_usdt": PaymentMethod.CRYPTO_USDT,
@@ -153,19 +155,35 @@ async def create_payment(
             "reference": payment.id,
             "instructions": f"Pay ৳{final_price} via Nagad, reference: {payment.id[:8]}"
         }
-    elif data.payment_method == "stripe":
+    elif data.payment_method in ("stripe", "alipay", "wechat_pay"):
         try:
             import stripe
             stripe.api_key = settings.stripe_secret_key
-            # Convert to USD cents
-            usd_amount = await currency_service.convert(final_price, data.currency, "USD")
+
+            # Determine payment_method_types and currency for this method
+            if data.payment_method == "alipay":
+                stripe_payment_method_types = ["alipay"]
+            elif data.payment_method == "wechat_pay":
+                stripe_payment_method_types = ["wechat_pay"]
+            else:
+                stripe_payment_method_types = ["card"]
+
+            # Use CNY directly for Alipay/WeChat Pay; otherwise convert to USD
+            if data.currency == "CNY" and data.payment_method in ("alipay", "wechat_pay"):
+                stripe_currency = "cny"
+                stripe_amount = int(final_price * 100)
+            else:
+                stripe_currency = "usd"
+                usd_amount = await currency_service.convert(final_price, data.currency, "USD")
+                stripe_amount = int(usd_amount * 100)
+
             session = stripe.checkout.Session.create(
-                payment_method_types=["card"],
+                payment_method_types=stripe_payment_method_types,
                 line_items=[{
                     "price_data": {
-                        "currency": "usd",
+                        "currency": stripe_currency,
                         "product_data": {"name": f"MAMA CHOL VPN — {data.plan.title()} Plan"},
-                        "unit_amount": int(usd_amount * 100),
+                        "unit_amount": stripe_amount,
                     },
                     "quantity": 1,
                 }],

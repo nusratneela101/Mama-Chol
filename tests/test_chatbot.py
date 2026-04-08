@@ -14,7 +14,7 @@ class TestChatbotEndpoint:
         assert resp.status_code == 400
 
     def test_chat_valid_message_returns_reply(self, client):
-        """Chatbot falls back gracefully when Ollama is unavailable in test env."""
+        """Chatbot falls back gracefully when DeepSeek API is unavailable in test env."""
         resp = client.post("/api/v1/chat", json={
             "message": "Hello, what plans do you offer?",
             "lang": "en",
@@ -62,8 +62,8 @@ class TestAIChatbotService:
     """Unit tests for the AIChatbot service class."""
 
     @pytest.mark.asyncio
-    async def test_fallback_on_unavailable_ollama(self):
-        """When Ollama is unreachable the chatbot should return a fallback message."""
+    async def test_fallback_on_unavailable_api(self):
+        """When DeepSeek API is unreachable the chatbot should return a fallback message."""
         from backend.services.ai_chatbot import AIChatbot
         bot = AIChatbot()
 

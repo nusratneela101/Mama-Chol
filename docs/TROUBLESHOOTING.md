@@ -129,12 +129,17 @@ sudo journalctl -u x-ui -f
 ## AI Chatbot Not Responding
 
 ```bash
-# Check Ollama service
-systemctl status ollama
-curl http://localhost:11434/api/tags
+# Check DeepSeek API key is set in .env
+grep DEEPSEEK_API_KEY /opt/mama-chol/.env
 
-# If model not found, pull it:
-ollama pull mistral
+# Test DeepSeek API connectivity
+curl -s -o /dev/null -w "%{http_code}" \
+  https://api.deepseek.com/v1/models \
+  -H "Authorization: Bearer $DEEPSEEK_API_KEY"
+# Should return: 200
+
+# If the chatbot returns fallback messages, verify the API key is valid
+# Get a key at: https://platform.deepseek.com
 ```
 
 ---

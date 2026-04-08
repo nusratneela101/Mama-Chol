@@ -58,9 +58,10 @@ class Settings(BaseSettings):
     xui_username: str = "admin"
     xui_password: str = "admin"
 
-    # Ollama AI
-    ollama_url: str = "http://localhost:11434"
-    ollama_model: str = "mistral"
+    # DeepSeek AI
+    deepseek_api_key: str = ""
+    deepseek_api_url: str = "https://api.deepseek.com"
+    deepseek_model: str = "deepseek-chat"
 
     # Exchange Rate
     exchange_rate_api_key: str = ""

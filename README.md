@@ -17,7 +17,7 @@
 ## ✨ Features
 
 - 🔒 **4 VPN Modes:** VLESS Reality, VMess WebSocket, Trojan GRPC, Shadowsocks
-- 🤖 **AI Assistant:** Powered by Ollama (Mistral), supports EN/BN/ZH/HI/AR
+- 🤖 **AI Assistant:** Powered by DeepSeek API, supports EN/BN/ZH/HI/AR
 - 🌍 **Multi-Language:** English, Bengali, Chinese, Hindi, Arabic
 - 💳 **Multi-Currency Payments:** bKash, Nagad, Stripe, Crypto (BTC/ETH/USDT)
 - 📱 **Cross-Platform:** Android, iOS, Windows, macOS, Linux
@@ -112,7 +112,7 @@ Mama-Chol/
 | Database | PostgreSQL 15 |
 | Cache | Redis 7 |
 | VPN Core | X-UI, V2Ray, Xray-core |
-| AI | Ollama (Mistral) |
+| AI | DeepSeek API (deepseek-chat) |
 | Payments | bKash, Nagad, Stripe |
 | Deploy | Docker, Nginx, HAProxy |
 

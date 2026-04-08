@@ -1,4 +1,4 @@
-"""AI Chatbot service using Ollama with multi-language support."""
+"""AI Chatbot service using DeepSeek API with multi-language support."""
 import logging
 import aiohttp
 import json
@@ -45,17 +45,27 @@ FALLBACK_RESPONSES = {
 
 
 class AIChatbot:
-    """AI chatbot powered by Ollama."""
+    """AI chatbot powered by DeepSeek API."""
 
     def __init__(self):
-        self.base_url = settings.ollama_url
-        self.model = settings.ollama_model
+        self.api_key = settings.deepseek_api_key
+        self.base_url = settings.deepseek_api_url
+        self.model = settings.deepseek_model
 
     async def _is_available(self) -> bool:
-        """Check if Ollama service is running."""
+        """Check if DeepSeek API is reachable."""
+        if not self.api_key:
+            return False
         try:
+            headers = {
+                "Authorization": f"Bearer {self.api_key}",
+                "Content-Type": "application/json",
+            }
             async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=3)) as session:
-                async with session.get(f"{self.base_url}/api/tags") as resp:
+                async with session.get(
+                    f"{self.base_url}/v1/models",
+                    headers=headers,
+                ) as resp:
                     return resp.status == 200
         except Exception:
             return False
@@ -63,7 +73,7 @@ class AIChatbot:
     async def chat(self, message: str, lang: str = "en", history: Optional[list] = None) -> str:
         """Get AI response for a message."""
         if not await self._is_available():
-            logger.warning("Ollama unavailable, using fallback")
+            logger.warning("DeepSeek API unavailable, using fallback")
             return FALLBACK_RESPONSES.get(lang, FALLBACK_RESPONSES["en"])
 
         system_prompt = SYSTEM_PROMPTS.get(lang, SYSTEM_PROMPTS["en"])
@@ -75,54 +85,81 @@ class AIChatbot:
         messages.append({"role": "user", "content": message})
 
         try:
+            headers = {
+                "Authorization": f"Bearer {self.api_key}",
+                "Content-Type": "application/json",
+            }
+            payload = {
+                "model": self.model,
+                "messages": messages,
+                "temperature": 0.7,
+                "max_tokens": 400,
+                "stream": False,
+            }
             async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=30)) as session:
-                payload = {
-                    "model": self.model,
-                    "messages": messages,
-                    "stream": False,
-                    "options": {"temperature": 0.7, "max_tokens": 400}
-                }
                 async with session.post(
-                    f"{self.base_url}/api/chat",
-                    json=payload
+                    f"{self.base_url}/v1/chat/completions",
+                    json=payload,
+                    headers=headers,
                 ) as resp:
                     if resp.status == 200:
                         data = await resp.json()
-                        return data["message"]["content"].strip()
+                        choices = data.get("choices", [])
+                        if choices:
+                            return choices[0]["message"]["content"].strip()
+                        else:
+                            logger.error("DeepSeek API returned empty choices")
+                            return FALLBACK_RESPONSES.get(lang, FALLBACK_RESPONSES["en"])
                     else:
-                        logger.error(f"Ollama returned status {resp.status}")
+                        logger.error(f"DeepSeek API returned status {resp.status}")
                         return FALLBACK_RESPONSES.get(lang, FALLBACK_RESPONSES["en"])
         except aiohttp.ClientError as e:
-            logger.error(f"Ollama chat error: {e}")
+            logger.error(f"DeepSeek chat error: {e}")
             return FALLBACK_RESPONSES.get(lang, FALLBACK_RESPONSES["en"])
 
     async def stream_chat(self, message: str, lang: str = "en") -> AsyncGenerator[str, None]:
         """Stream AI response tokens."""
         system_prompt = SYSTEM_PROMPTS.get(lang, SYSTEM_PROMPTS["en"])
+        headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "Content-Type": "application/json",
+        }
         payload = {
             "model": self.model,
             "messages": [
                 {"role": "system", "content": system_prompt},
-                {"role": "user", "content": message}
+                {"role": "user", "content": message},
             ],
-            "stream": True
+            "temperature": 0.7,
+            "max_tokens": 400,
+            "stream": True,
         }
         try:
             async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=60)) as session:
-                async with session.post(f"{self.base_url}/api/chat", json=payload) as resp:
+                async with session.post(
+                    f"{self.base_url}/v1/chat/completions",
+                    json=payload,
+                    headers=headers,
+                ) as resp:
                     if resp.status == 200:
                         async for line in resp.content:
                             line = line.decode().strip()
-                            if line:
+                            if line.startswith("data: "):
+                                line = line[6:]
+                            if line and line != "[DONE]":
                                 try:
                                     data = json.loads(line)
-                                    token = data.get("message", {}).get("content", "")
+                                    token = (
+                                        data.get("choices", [{}])[0]
+                                        .get("delta", {})
+                                        .get("content", "")
+                                    )
                                     if token:
                                         yield token
                                 except json.JSONDecodeError:
                                     pass
         except Exception as e:
-            logger.error(f"Ollama stream error: {e}")
+            logger.error(f"DeepSeek stream error: {e}")
             yield FALLBACK_RESPONSES.get(lang, FALLBACK_RESPONSES["en"])
 
 

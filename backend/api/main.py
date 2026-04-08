@@ -83,7 +83,6 @@ async def health_check():
     return {"status": "ok", "version": settings.version, "service": settings.app_name}
 
 
-@app.get("/api/v1/chat", tags=["AI"])
 @app.post("/api/v1/chat", tags=["AI"])
 async def ai_chat(request: Request):
     """AI chatbot endpoint."""

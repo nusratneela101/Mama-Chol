@@ -45,7 +45,7 @@ async def activate_subscription(
     # Deactivate existing subscriptions
     db.query(Subscription).filter(
         Subscription.user_id == user_id,
-        Subscription.is_active
+        Subscription.is_active.is_(True)
     ).update({"is_active": False})
 
     limit_gb = get_plan_data_limit_gb(plan)
@@ -90,7 +90,7 @@ async def create_payment(
     if data.promo_code:
         promo = db.query(PromoCode).filter(
             PromoCode.code == data.promo_code.upper(),
-            PromoCode.is_active
+            PromoCode.is_active.is_(True)
         ).first()
         if promo:
             now = datetime.utcnow()

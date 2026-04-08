@@ -1,7 +1,6 @@
 """VPN management API endpoints."""
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-
 from backend.models.database import get_db, Server, ServerStatus, Subscription, VPNConfig
 from backend.api.auth import get_current_user
 from backend.models.database import User
@@ -44,7 +43,7 @@ async def get_usage(
     """Get VPN usage statistics for current user."""
     subscription = db.query(Subscription).filter(
         Subscription.user_id == current_user.id,
-        Subscription.is_active
+        Subscription.is_active.is_(True)
     ).order_by(Subscription.expires_at.desc()).first()
 
     config = db.query(VPNConfig).filter(VPNConfig.user_id == current_user.id).first()

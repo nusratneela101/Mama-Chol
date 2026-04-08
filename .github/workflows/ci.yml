@@ -58,8 +58,9 @@ jobs:
           XUI_URL: "http://localhost:54321"
           XUI_USERNAME: "admin"
           XUI_PASSWORD: "admin"
-          OLLAMA_URL: "http://localhost:11434"
-          OLLAMA_MODEL: "mistral"
+          DEEPSEEK_API_KEY: ""
+          DEEPSEEK_API_URL: "https://api.deepseek.com"
+          DEEPSEEK_MODEL: "deepseek-chat"
           EXCHANGE_RATE_API_KEY: "test"
           REDIS_URL: "redis://localhost:6379"
         run: |

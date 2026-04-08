@@ -61,8 +61,8 @@ class CurrencyService:
     async def _fetch_rates(self) -> Dict[str, float]:
         """Fetch rates from free API."""
         apis = [
-            f"https://open.er-api.com/v6/latest/USD",
-            f"https://api.exchangerate-api.com/v4/latest/USD",
+            "https://open.er-api.com/v6/latest/USD",
+            "https://api.exchangerate-api.com/v4/latest/USD",
         ]
         for url in apis:
             try:

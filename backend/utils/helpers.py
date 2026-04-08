@@ -3,7 +3,7 @@ import uuid
 import random
 import string
 import re
-from datetime import datetime, timedelta
+from datetime import datetime
 from typing import Optional
 import qrcode
 import qrcode.image.svg

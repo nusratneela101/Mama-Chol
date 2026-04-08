@@ -11,7 +11,7 @@ from backend.models.database import (
     PaymentStatus, PaymentMethod, PlanType
 )
 from backend.api.auth import get_current_user
-from backend.utils.helpers import calculate_expiry, get_plan_device_limit, get_plan_data_limit_gb, gb_to_bytes
+from backend.utils.helpers import calculate_expiry, get_plan_device_limit, get_plan_data_limit_gb
 from backend.services.currency_exchange import currency_service
 from backend.services.email_service import send_payment_confirmation
 from backend.config.settings import settings
@@ -45,7 +45,7 @@ async def activate_subscription(
     # Deactivate existing subscriptions
     db.query(Subscription).filter(
         Subscription.user_id == user_id,
-        Subscription.is_active == True
+        Subscription.is_active
     ).update({"is_active": False})
 
     limit_gb = get_plan_data_limit_gb(plan)
@@ -90,7 +90,7 @@ async def create_payment(
     if data.promo_code:
         promo = db.query(PromoCode).filter(
             PromoCode.code == data.promo_code.upper(),
-            PromoCode.is_active == True
+            PromoCode.is_active
         ).first()
         if promo:
             now = datetime.utcnow()

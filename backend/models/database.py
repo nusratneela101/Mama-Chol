@@ -4,7 +4,6 @@ from sqlalchemy import (
     DateTime, Text, ForeignKey, Enum, JSON, BigInteger
 )
 from sqlalchemy.orm import declarative_base, relationship, sessionmaker
-from sqlalchemy.dialects.postgresql import UUID
 from datetime import datetime
 import uuid
 import enum

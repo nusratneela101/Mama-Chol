@@ -61,7 +61,7 @@ class AIChatbot:
                 "Authorization": f"Bearer {self.api_key}",
                 "Content-Type": "application/json",
             }
-            async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=5)) as session:
+            async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=3)) as session:
                 async with session.get(
                     f"{self.base_url}/v1/models",
                     headers=headers,
@@ -104,7 +104,12 @@ class AIChatbot:
                 ) as resp:
                     if resp.status == 200:
                         data = await resp.json()
-                        return data["choices"][0]["message"]["content"].strip()
+                        choices = data.get("choices", [])
+                        if choices:
+                            return choices[0]["message"]["content"].strip()
+                        else:
+                            logger.error("DeepSeek API returned empty choices")
+                            return FALLBACK_RESPONSES.get(lang, FALLBACK_RESPONSES["en"])
                     else:
                         logger.error(f"DeepSeek API returned status {resp.status}")
                         return FALLBACK_RESPONSES.get(lang, FALLBACK_RESPONSES["en"])

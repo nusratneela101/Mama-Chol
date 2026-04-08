@@ -1,5 +1,4 @@
 """Tests for authentication endpoints."""
-import pytest
 from tests.conftest import make_user
 
 

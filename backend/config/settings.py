@@ -1,7 +1,6 @@
 """Application settings using pydantic-settings."""
 from pydantic_settings import BaseSettings
-from pydantic import validator
-from typing import Optional, List
+from typing import List
 import secrets
 
 

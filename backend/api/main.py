@@ -103,7 +103,6 @@ async def ai_chat(request: Request):
 @app.get("/api/v1/sub/{token}", tags=["VPN"])
 async def subscription_link(token: str):
     """Return subscription URL content (all VPN links in one)."""
-    from sqlalchemy.orm import Session
     from backend.models.database import get_db, VPNConfig
     import base64
 

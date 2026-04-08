@@ -4,7 +4,7 @@ import hashlib
 import hmac
 import base64
 from datetime import datetime, timedelta
-from typing import Optional, Union, Any
+from typing import Optional, Union
 from passlib.context import CryptContext
 from jose import JWTError, jwt
 from backend.config.settings import settings

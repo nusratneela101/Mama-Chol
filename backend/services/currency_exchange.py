@@ -1,6 +1,7 @@
 """Currency exchange service with Redis caching."""
 import json
 import logging
+from datetime import datetime, timezone
 from typing import Dict, Optional
 import aiohttp
 import redis.asyncio as aioredis
@@ -9,13 +10,16 @@ from backend.config.settings import settings
 logger = logging.getLogger(__name__)
 
 CACHE_KEY = "mamachol:exchange_rates"
-CACHE_TTL = 3600  # 1 hour
+CACHE_META_KEY = "mamachol:exchange_rates:meta"
+LAST_GOOD_KEY = "mamachol:exchange_rates:last_good"
+CACHE_TTL = 1800  # 30 minutes
 
+# 2026 approximate fallback rates (USD base)
 FALLBACK_RATES: Dict[str, float] = {
-    "USD": 1.0, "BDT": 110.0, "CNY": 7.24, "INR": 83.5,
-    "EUR": 0.92, "GBP": 0.79, "JPY": 149.5, "SGD": 1.34,
-    "MYR": 4.67, "THB": 35.1, "AED": 3.67, "SAR": 3.75,
-    "BTC": 0.000024, "ETH": 0.00038, "USDT": 1.0, "USDC": 1.0
+    "USD": 1.0, "BDT": 121.0, "CNY": 7.1, "INR": 84.0,
+    "EUR": 0.91, "GBP": 0.78, "JPY": 151.0, "SGD": 1.33,
+    "MYR": 4.45, "THB": 34.5, "AED": 3.67, "SAR": 3.75,
+    "BTC": 0.000011, "ETH": 0.00034, "USDT": 1.0, "USDC": 1.0
 }
 
 FIXED_PRICES = {
@@ -50,34 +54,148 @@ class CurrencyService:
         except Exception as e:
             logger.warning(f"Redis unavailable: {e}")
 
-        rates = await self._fetch_rates()
+        rates, source = await self._fetch_rates()
+
         try:
             r = await self.get_redis()
-            await r.setex(CACHE_KEY, CACHE_TTL, json.dumps(rates))
+            await r.setex(CACHE_KEY, settings.exchange_rate_cache_ttl, json.dumps(rates))
+            meta = {
+                "source": source,
+                "updated_at": datetime.now(timezone.utc).isoformat(),
+                "cached": True,
+            }
+            await r.setex(CACHE_META_KEY, settings.exchange_rate_cache_ttl, json.dumps(meta))
+            # Persist last-good rates indefinitely so we have them if all APIs fail
+            await r.set(LAST_GOOD_KEY, json.dumps({"rates": rates, "source": source}))
         except Exception:
             pass
+
         return rates
 
-    async def _fetch_rates(self) -> Dict[str, float]:
-        """Fetch rates from free API."""
+    async def get_rates_with_meta(self) -> dict:
+        """Return rates plus metadata (source, cached flag, updated_at)."""
+        try:
+            r = await self.get_redis()
+            cached_rates = await r.get(CACHE_KEY)
+            cached_meta = await r.get(CACHE_META_KEY)
+            if cached_rates and cached_meta:
+                return {
+                    "base": "USD",
+                    "rates": json.loads(cached_rates),
+                    **json.loads(cached_meta),
+                }
+        except Exception as e:
+            logger.warning(f"Redis unavailable: {e}")
+
+        rates, source = await self._fetch_rates()
+        now = datetime.now(timezone.utc).isoformat()
+
+        try:
+            r = await self.get_redis()
+            await r.setex(CACHE_KEY, settings.exchange_rate_cache_ttl, json.dumps(rates))
+            meta = {"source": source, "updated_at": now, "cached": False}
+            await r.setex(CACHE_META_KEY, settings.exchange_rate_cache_ttl, json.dumps(meta))
+            await r.set(LAST_GOOD_KEY, json.dumps({"rates": rates, "source": source}))
+        except Exception:
+            pass
+
+        return {"base": "USD", "rates": rates, "source": source, "cached": False, "updated_at": now}
+
+    async def _fetch_rates(self) -> tuple[Dict[str, float], str]:
+        """Fetch rates from 3 free, unlimited, no-API-key APIs in priority order."""
         apis = [
-            "https://open.er-api.com/v6/latest/USD",
-            "https://api.exchangerate-api.com/v4/latest/USD",
+            # Priority 1: fawazahmed0 CDN-backed, 200+ currencies, unlimited, no key
+            "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json",
+            # Priority 2: Frankfurter (Central bank rates, 163+ currencies, unlimited, no key)
+            "https://api.frankfurter.app/latest?base=USD",
+            # Priority 3: ExConvert (Real-time, 145+ fiat, unlimited, no key)
+            "https://exconvert.com/api/convert?base=USD",
         ]
+
         for url in apis:
             try:
-                async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=5)) as session:
+                async with aiohttp.ClientSession(
+                    timeout=aiohttp.ClientTimeout(total=5)
+                ) as session:
                     async with session.get(url) as resp:
-                        if resp.status == 200:
-                            data = await resp.json()
-                            rates = data.get("rates", {})
-                            if rates and "BDT" in rates:
-                                logger.info("Exchange rates fetched from API")
-                                return rates
+                        if resp.status != 200:
+                            continue
+                        data = await resp.json(content_type=None)
+                        rates = self._parse_api_response(url, data)
+                        if rates and "BDT" in rates:
+                            logger.info(f"Exchange rates fetched from {url}")
+                            source = self._source_name(url)
+                            return rates, source
             except Exception as e:
                 logger.warning(f"Exchange API {url} failed: {e}")
-        logger.warning("Using fallback exchange rates")
-        return FALLBACK_RATES.copy()
+
+        # Try last-good rates before falling back to hardcoded values
+        try:
+            r = await self.get_redis()
+            last_good_raw = await r.get(LAST_GOOD_KEY)
+            if last_good_raw:
+                last_good = json.loads(last_good_raw)
+                logger.warning("All live APIs failed — using last-good cached rates")
+                return last_good["rates"], f"last_good({last_good.get('source', 'unknown')})"
+        except Exception:
+            pass
+
+        logger.warning("Using hardcoded fallback exchange rates")
+        return FALLBACK_RATES.copy(), "fallback"
+
+    def _parse_api_response(self, url: str, data: dict) -> Optional[Dict[str, float]]:
+        """Parse API-specific response formats and normalize keys to UPPERCASE."""
+        try:
+            if url.startswith("https://cdn.jsdelivr.net/npm/@fawazahmed0/"):
+                # Format: {"date": "...", "usd": {"bdt": 121.0, "cny": 7.1, ...}}
+                raw = data.get("usd", {})
+                if not raw:
+                    return None
+                return {k.upper(): float(v) for k, v in raw.items() if isinstance(v, (int, float))}
+
+            if url.startswith("https://api.frankfurter.app/"):
+                # Format: {"base": "USD", "rates": {"BDT": 121.0, "CNY": 7.1, ...}}
+                # Note: USD itself is not included; add it manually
+                raw = data.get("rates", {})
+                if not raw:
+                    return None
+                rates = {k.upper(): float(v) for k, v in raw.items() if isinstance(v, (int, float))}
+                rates["USD"] = 1.0
+                return rates
+
+            if url.startswith("https://exconvert.com/"):
+                # Format: {"base": "USD", "results": {"BDT": {"rate": 121.0}, ...}}
+                # or simpler: {"BDT": 121.0, ...} — try both
+                raw = data.get("results", data)
+                if not raw:
+                    return None
+                rates: Dict[str, float] = {}
+                for k, v in raw.items():
+                    if k in ("base", "date", "success"):
+                        continue
+                    if isinstance(v, dict):
+                        rate = v.get("rate") or v.get("value") or v.get("val")
+                        if rate is not None:
+                            rates[k.upper()] = float(rate)
+                    elif isinstance(v, (int, float)):
+                        rates[k.upper()] = float(v)
+                if rates:
+                    rates["USD"] = 1.0
+                return rates if rates else None
+
+        except Exception as e:
+            logger.warning(f"Failed to parse response from {url}: {e}")
+        return None
+
+    @staticmethod
+    def _source_name(url: str) -> str:
+        if url.startswith("https://cdn.jsdelivr.net/npm/@fawazahmed0/"):
+            return "fawazahmed0"
+        if url.startswith("https://api.frankfurter.app/"):
+            return "frankfurter"
+        if url.startswith("https://exconvert.com/"):
+            return "exconvert"
+        return "unknown"
 
     async def convert(self, amount: float, from_currency: str, to_currency: str) -> float:
         """Convert amount between currencies."""

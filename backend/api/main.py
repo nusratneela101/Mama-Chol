@@ -8,7 +8,7 @@ import time
 
 from backend.config.settings import settings
 from backend.models.database import create_tables
-from backend.api import auth, user, vpn, payment, admin
+from backend.api import auth, user, vpn, payment, admin, currency
 
 logging.basicConfig(
     level=logging.DEBUG if settings.debug else logging.INFO,
@@ -75,6 +75,7 @@ app.include_router(user.router, prefix="/api/v1/user", tags=["User"])
 app.include_router(vpn.router, prefix="/api/v1/vpn", tags=["VPN"])
 app.include_router(payment.router, prefix="/api/v1/payment", tags=["Payment"])
 app.include_router(admin.router, prefix="/api/v1/admin", tags=["Admin"])
+app.include_router(currency.router, prefix="/api/currency", tags=["Currency"])
 
 
 @app.get("/health", tags=["Health"])

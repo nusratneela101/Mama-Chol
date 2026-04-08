@@ -19,15 +19,15 @@ const CURRENCY_NAMES = {
   BTC: 'Bitcoin', ETH: 'Ethereum', USDT: 'Tether USDT'
 };
 
-// Fallback exchange rates (relative to USD)
+// Fallback exchange rates (2026 approximate, relative to USD)
 const FALLBACK_RATES = {
-  USD: 1, BDT: 110, CNY: 7.24, INR: 83.5,
-  EUR: 0.92, GBP: 0.79, JPY: 149.5,
-  BTC: 0.000024, ETH: 0.00038, USDT: 1
+  USD: 1, BDT: 121, CNY: 7.1, INR: 84,
+  EUR: 0.91, GBP: 0.78, JPY: 151,
+  BTC: 0.000011, ETH: 0.00034, USDT: 1
 };
 
 const CACHE_KEY = 'mamachol_exchange_rates';
-const CACHE_DURATION = 3600000; // 1 hour in ms
+const CACHE_DURATION = 1800000; // 30 minutes in ms
 
 class CurrencyConverter {
   constructor() {
@@ -43,25 +43,25 @@ class CurrencyConverter {
   }
 
   async loadRates() {
-    // Check cache
+    // Check local cache first
     const cached = this.getCachedRates();
     if (cached) { this.rates = cached; return; }
 
     try {
-      // Try free exchange rate API
-      const res = await fetch('https://open.er-api.com/v6/latest/USD', {
-        signal: AbortSignal.timeout(3000)
+      // Fetch rates from backend — backend handles multi-API failover and caching
+      const res = await fetch('/api/currency/rates', {
+        signal: AbortSignal.timeout(5000)
       });
       if (res.ok) {
         const data = await res.json();
-        if (data.result === 'success') {
+        if (data.rates && typeof data.rates === 'object') {
           this.rates = data.rates;
           this.cacheRates(data.rates);
           return;
         }
       }
     } catch (e) {
-      console.warn('Currency API unavailable, using fallback rates');
+      console.warn('Backend currency API unavailable, using fallback rates');
     }
 
     // Use fallback rates
